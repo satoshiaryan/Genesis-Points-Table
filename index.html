@@ -61,10 +61,8 @@
             flex-direction: column;
             align-items: center;
             min-height: 100vh;
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(74, 144, 226, 0.05) 0%, transparent 20%),
-                radial-gradient(circle at 85% 30%, rgba(0, 255, 232, 0.03) 0%, transparent 20%),
-                radial-gradient(circle at 50% 80%, rgba(255, 107, 107, 0.02) 0%, transparent 20%);
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
         }
         
         .container {
@@ -72,16 +70,12 @@
             max-width: 100%;
             background-color: var(--ebony-surface);
             border-radius: 16px;
-            box-shadow: 
-                0 10px 40px rgba(0, 0, 0, 0.4),
-                0 0 0 1px rgba(255, 255, 255, 0.05),
-                inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
             padding: 40px;
             margin-bottom: 40px;
             border: 1px solid var(--ebony-border);
             position: relative;
             overflow: hidden;
-            backdrop-filter: blur(10px);
         }
         
         .container::before {
@@ -107,12 +101,7 @@
             z-index: 1;
             opacity: 0;
             transform: translateY(-20px);
-            transition: all 0.8s ease-out;
-        }
-        
-        header.visible {
-            opacity: 1;
-            transform: translateY(0);
+            animation: fadeInDown 0.6s ease-out forwards;
         }
         
         h1 {
@@ -125,7 +114,6 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            text-shadow: 0 0 30px var(--accent-glow);
         }
         
         .tournament-phase {
@@ -147,7 +135,6 @@
             font-size: 14px;
             font-weight: 700;
             letter-spacing: 0.8px;
-            box-shadow: 0 4px 15px rgba(74, 144, 226, 0.2);
         }
         
         .qualification-rules {
@@ -176,12 +163,10 @@
         
         .dot-qualify {
             background: var(--qualify-color);
-            box-shadow: 0 0 10px var(--qualify-color);
         }
         
         .dot-eliminate {
             background: var(--eliminate-color);
-            box-shadow: 0 0 10px var(--eliminate-color);
         }
         
         .groups-container {
@@ -196,39 +181,25 @@
             border-radius: 14px;
             padding: 30px;
             border: 1px solid var(--ebony-border);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
-            transition: all 0.3s ease;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
             position: relative;
             overflow: hidden;
             opacity: 0;
-            transform: translateY(30px);
-            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .group-card.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        
-        .group-card.group-1.visible {
-            animation: slideInLeft 0.8s ease-out;
-        }
-        
-        .group-card.group-2.visible {
-            animation: slideInRight 0.8s ease-out;
         }
         
         .group-card.group-1 {
             border-top: 4px solid var(--group-1-color);
+            animation: slideInLeft 0.6s ease-out 0.2s forwards;
         }
         
         .group-card.group-2 {
             border-top: 4px solid var(--group-2-color);
+            animation: slideInRight 0.6s ease-out 0.4s forwards;
         }
         
         .group-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.35);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
         }
         
         .group-header {
@@ -260,7 +231,6 @@
             justify-content: center;
             font-weight: 800;
             font-size: 18px;
-            box-shadow: 0 0 20px var(--group-1-color);
         }
         
         .group-title.group-2::before {
@@ -275,7 +245,6 @@
             justify-content: center;
             font-weight: 800;
             font-size: 18px;
-            box-shadow: 0 0 20px var(--group-2-color);
         }
         
         .group-teams-count {
@@ -287,7 +256,6 @@
             border-radius: 20px;
         }
         
-        /* ===== SCROLLABLE TABLES WITH HIDDEN SCROLLBAR ===== */
         .table-container {
             width: 100%;
             overflow-x: auto;
@@ -324,8 +292,7 @@
             border-bottom: 2px solid var(--ebony-border);
             text-transform: uppercase;
             letter-spacing: 0.8px;
-            background: rgba(21, 21, 21, 0.95);
-            backdrop-filter: blur(10px);
+            background: var(--ebony-bg);
             white-space: nowrap;
             vertical-align: middle;
         }
@@ -347,7 +314,6 @@
         .standings-table th:nth-child(10) { 
             width: 70px; 
             min-width: 65px;
-            background: linear-gradient(to bottom, rgba(74, 144, 226, 0.1), transparent);
         }
 
         .standings-table td {
@@ -357,7 +323,6 @@
             font-weight: 500;
             border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             color: var(--text-secondary);
-            transition: all 0.3s ease;
             vertical-align: middle;
             white-space: nowrap;
         }
@@ -382,21 +347,20 @@
 
         .standings-table tbody tr {
             opacity: 0;
-            animation: fadeInUp 0.5s ease-out forwards;
+            animation: fadeInUp 0.4s ease-out forwards;
         }
 
-        .standings-table tbody tr:nth-child(1) { animation-delay: 0.1s; }
-        .standings-table tbody tr:nth-child(2) { animation-delay: 0.2s; }
-        .standings-table tbody tr:nth-child(3) { animation-delay: 0.3s; }
-        .standings-table tbody tr:nth-child(4) { animation-delay: 0.4s; }
-        .standings-table tbody tr:nth-child(5) { animation-delay: 0.5s; }
-        .standings-table tbody tr:nth-child(6) { animation-delay: 0.6s; }
-        .standings-table tbody tr:nth-child(7) { animation-delay: 0.7s; }
+        .standings-table tbody tr:nth-child(1) { animation-delay: 0.05s; }
+        .standings-table tbody tr:nth-child(2) { animation-delay: 0.1s; }
+        .standings-table tbody tr:nth-child(3) { animation-delay: 0.15s; }
+        .standings-table tbody tr:nth-child(4) { animation-delay: 0.2s; }
+        .standings-table tbody tr:nth-child(5) { animation-delay: 0.25s; }
+        .standings-table tbody tr:nth-child(6) { animation-delay: 0.3s; }
+        .standings-table tbody tr:nth-child(7) { animation-delay: 0.35s; }
 
         .standings-table tbody tr:hover {
-            background: rgba(255, 255, 255, 0.03);
-            transform: translateX(5px);
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.05);
+            transition: background 0.15s ease;
         }
 
         .team-cell {
@@ -407,7 +371,6 @@
             font-weight: 600;
             font-size: 16px;
             color: var(--text-primary);
-            position: relative;
         }
         
         .team-crest {
@@ -418,7 +381,6 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
             border: 2px solid rgba(255, 255, 255, 0.15);
             flex-shrink: 0;
             font-weight: 800;
@@ -470,12 +432,10 @@
         
         .qualifies {
             background: var(--qualify-color);
-            box-shadow: 0 0 10px var(--qualify-color);
         }
         
         .eliminated {
             background: var(--eliminate-color);
-            box-shadow: 0 0 10px var(--eliminate-color);
         }
         
         .points-cell {
@@ -518,8 +478,9 @@
             padding: 30px;
             border-radius: 16px;
             border: 1px solid var(--ebony-border);
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
             text-align: center;
+            opacity: 0;
+            animation: fadeInUp 0.6s ease-out 0.6s forwards;
         }
         
         .season-status-text {
@@ -558,7 +519,18 @@
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(20px);
+                transform: translateY(15px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
             }
             to {
                 opacity: 1;
@@ -569,7 +541,7 @@
         @keyframes slideInLeft {
             from {
                 opacity: 0;
-                transform: translateX(-30px);
+                transform: translateX(-20px);
             }
             to {
                 opacity: 1;
@@ -580,7 +552,7 @@
         @keyframes slideInRight {
             from {
                 opacity: 0;
-                transform: translateX(30px);
+                transform: translateX(20px);
             }
             to {
                 opacity: 1;
@@ -755,9 +727,7 @@
                                 <th>PTS</th>
                             </tr>
                         </thead>
-                        <tbody id="group1Body">
-                            <!-- Group A standings will be populated -->
-                        </tbody>
+                        <tbody id="group1Body"></tbody>
                     </table>
                 </div>
                 
@@ -800,9 +770,7 @@
                                 <th>PTS</th>
                             </tr>
                         </thead>
-                        <tbody id="group2Body">
-                            <!-- Group B standings will be populated -->
-                        </tbody>
+                        <tbody id="group2Body"></tbody>
                     </table>
                 </div>
                 
@@ -832,147 +800,24 @@
     </div>
 
     <script>
-        // Genesis Season 1 Teams Data
         const teams = {
-            // GROUP A Teams
-            "DES": { 
-                name: "Destroyers", 
-                shortName: "Destroyers",
-                color: "var(--destroyers)",
-                crestClass: "destroyers-crest",
-                imageUrl: "images/destroyers.png",
-                fallbackText: "DES",
-                group: 1
-            },
-            "PXG": { 
-                name: "PXG", 
-                shortName: "PXG",
-                color: "var(--pxg)",
-                crestClass: "pxg-crest",
-                imageUrl: "images/pxg.png",
-                fallbackText: "PXG",
-                group: 1
-            },
-            "VAN": { 
-                name: "VanGuard FC", 
-                shortName: "VanGuard",
-                color: "var(--vanguard)",
-                crestClass: "vanguard-crest",
-                imageUrl: "images/vanguard.png",
-                fallbackText: "VNG",
-                group: 1
-            },
-            "HAR": { 
-                name: "Haramball United", 
-                shortName: "Haramball Utd",
-                color: "var(--haramball)",
-                crestClass: "haramball-crest",
-                imageUrl: "images/haramball.png",
-                fallbackText: "HBU",
-                group: 1
-            },
-            "STW": { 
-                name: "StrawHat Ballers", 
-                shortName: "StrawHat",
-                color: "var(--strawhat)",
-                crestClass: "strawhat-crest",
-                imageUrl: "images/strawhat.png",
-                fallbackText: "SHB",
-                group: 1
-            },
-            "BLU": { 
-                name: "The Blues", 
-                shortName: "The Blues",
-                color: "var(--blues)",
-                crestClass: "blues-crest",
-                imageUrl: "images/blues.png",
-                fallbackText: "BLU",
-                group: 1
-            },
-            "CSS": { 
-                name: "Central City SpeedStars", 
-                shortName: "SpeedStars",
-                color: "var(--speedstars)",
-                crestClass: "speedstars-crest",
-                imageUrl: "images/speedstars.png",
-                fallbackText: "CSS",
-                group: 1
-            },
-            
-            // GROUP B Teams
-            "BLZ": { 
-                name: "Blitz Grandpas", 
-                shortName: "Blitz G.",
-                color: "var(--blitz)",
-                crestClass: "blitz-crest",
-                imageUrl: "images/blitz.png",
-                fallbackText: "BLZ",
-                group: 2
-            },
-            "COR": { 
-                name: "Cortisol FC", 
-                shortName: "Cortisol",
-                color: "var(--cortisol)",
-                crestClass: "cortisol-crest",
-                imageUrl: "images/cortisol.png",
-                fallbackText: "COR",
-                group: 2
-            },
-            "EGO": { 
-                name: "Egoistic Knights FC", 
-                shortName: "Egoistic K.",
-                color: "var(--egoistic)",
-                crestClass: "egoistic-crest",
-                imageUrl: "images/egoistic.png",
-                fallbackText: "EKN",
-                group: 2
-            },
-            "REM": { 
-                name: "Remontada FC", 
-                shortName: "Remontada",
-                color: "var(--remontada)",
-                crestClass: "remontada-crest",
-                imageUrl: "images/remontada.png",
-                fallbackText: "REM",
-                group: 2
-            },
-            "SPA": { 
-                name: "Spartans Legion", 
-                shortName: "Spartans",
-                color: "var(--spartans)",
-                crestClass: "spartans-crest",
-                imageUrl: "images/spartans.png",
-                fallbackText: "SPL",
-                group: 2
-            },
-            "VAL": { 
-                name: "Vallhala FC", 
-                shortName: "Vallhala",
-                color: "var(--vallhala)",
-                crestClass: "vallhala-crest",
-                imageUrl: "images/vallhala.png",
-                fallbackText: "VAL",
-                group: 2
-            },
-            "VOR": { 
-                name: "Vortex Vipers", 
-                shortName: "Vortex V.",
-                color: "var(--vortex)",
-                crestClass: "vortex-crest",
-                imageUrl: "images/vortex.png",
-                fallbackText: "VOR",
-                group: 2
-            }
+            "DES": { name: "Destroyers", shortName: "Destroyers", crestClass: "destroyers-crest", imageUrl: "images/destroyers.png", fallbackText: "DES", group: 1 },
+            "PXG": { name: "PXG", shortName: "PXG", crestClass: "pxg-crest", imageUrl: "images/pxg.png", fallbackText: "PXG", group: 1 },
+            "VAN": { name: "VanGuard FC", shortName: "VanGuard", crestClass: "vanguard-crest", imageUrl: "images/vanguard.png", fallbackText: "VNG", group: 1 },
+            "HAR": { name: "Haramball United", shortName: "Haramball Utd", crestClass: "haramball-crest", imageUrl: "images/haramball.png", fallbackText: "HBU", group: 1 },
+            "STW": { name: "StrawHat Ballers", shortName: "StrawHat", crestClass: "strawhat-crest", imageUrl: "images/strawhat.png", fallbackText: "SHB", group: 1 },
+            "BLU": { name: "The Blues", shortName: "The Blues", crestClass: "blues-crest", imageUrl: "images/blues.png", fallbackText: "BLU", group: 1 },
+            "CSS": { name: "Central City SpeedStars", shortName: "SpeedStars", crestClass: "speedstars-crest", imageUrl: "images/speedstars.png", fallbackText: "CSS", group: 1 },
+            "BLZ": { name: "Blitz Grandpas", shortName: "Blitz G.", crestClass: "blitz-crest", imageUrl: "images/blitz.png", fallbackText: "BLZ", group: 2 },
+            "COR": { name: "Cortisol FC", shortName: "Cortisol", crestClass: "cortisol-crest", imageUrl: "images/cortisol.png", fallbackText: "COR", group: 2 },
+            "EGO": { name: "Egoistic Knights FC", shortName: "Egoistic K.", crestClass: "egoistic-crest", imageUrl: "images/egoistic.png", fallbackText: "EKN", group: 2 },
+            "REM": { name: "Remontada FC", shortName: "Remontada", crestClass: "remontada-crest", imageUrl: "images/remontada.png", fallbackText: "REM", group: 2 },
+            "SPA": { name: "Spartans Legion", shortName: "Spartans", crestClass: "spartans-crest", imageUrl: "images/spartans.png", fallbackText: "SPL", group: 2 },
+            "VAL": { name: "Vallhala FC", shortName: "Vallhala", crestClass: "vallhala-crest", imageUrl: "images/vallhala.png", fallbackText: "VAL", group: 2 },
+            "VOR": { name: "Vortex Vipers", shortName: "Vortex V.", crestClass: "vortex-crest", imageUrl: "images/vortex.png", fallbackText: "VOR", group: 2 }
         };
 
-        // NEW SEASON - All standings reset to 0
         let standingsData = {
-            lastUpdated: new Date().toLocaleString('en-US', { 
-                month: 'short', 
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            }),
             group1: [
                 { team: "DES", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
                 { team: "PXG", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
@@ -993,100 +838,6 @@
             ]
         };
 
-        // Scroll Animation Handler
-        function initScrollAnimations() {
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.1
-            };
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        
-                        if (entry.target.classList.contains('group-card')) {
-                            setTimeout(() => {
-                                const tableRows = entry.target.querySelectorAll('tbody tr');
-                                tableRows.forEach((row, index) => {
-                                    row.style.animationDelay = `${index * 0.1}s`;
-                                });
-                            }, 300);
-                        }
-                    }
-                });
-            }, observerOptions);
-            
-            const elementsToAnimate = [
-                document.querySelector('header'),
-                document.querySelector('.group-card.group-1'),
-                document.querySelector('.group-card.group-2')
-            ];
-            
-            elementsToAnimate.forEach(element => {
-                if (element) observer.observe(element);
-            });
-            
-            setTimeout(() => {
-                const header = document.querySelector('header');
-                if (header && header.getBoundingClientRect().top < window.innerHeight * 0.8) {
-                    header.classList.add('visible');
-                }
-            }, 100);
-        }
-
-        function enhanceTableInteractivity() {
-            if (window.innerWidth >= 768) {
-                const tableRows = document.querySelectorAll('.standings-table tbody tr');
-                
-                tableRows.forEach(row => {
-                    row.addEventListener('mouseenter', function() {
-                        this.style.transform = 'translateX(5px)';
-                        this.style.boxShadow = '0 5px 20px rgba(0, 0, 0, 0.3)';
-                        this.style.backgroundColor = 'rgba(255, 255, 255, 0.04)';
-                    });
-                    
-                    row.addEventListener('mouseleave', function() {
-                        this.style.transform = 'translateX(0)';
-                        this.style.boxShadow = 'none';
-                        this.style.backgroundColor = '';
-                    });
-                });
-            }
-        }
-
-        document.addEventListener('DOMContentLoaded', function() {
-            updateDisplay();
-            calculateGroupStats();
-            initScrollAnimations();
-            enhanceTableInteractivity();
-            
-            window.addEventListener('resize', enhanceTableInteractivity);
-            
-            const tableContainers = document.querySelectorAll('.table-container');
-            tableContainers.forEach(container => {
-                container.addEventListener('scroll', function() {
-                    const maxScroll = this.scrollWidth - this.clientWidth;
-                    if (this.scrollLeft > 0 && this.scrollLeft < maxScroll) {
-                        this.style.borderColor = 'rgba(74, 144, 226, 0.3)';
-                    } else {
-                        this.style.borderColor = 'rgba(255, 255, 255, 0.1)';
-                    }
-                });
-            });
-        });
-
-        function updateDisplay() {
-            renderGroupStandings();
-            calculateGroupStats();
-        }
-
-        function renderGroupStandings() {
-            renderGroup(1, standingsData.group1, 'group1Body');
-            renderGroup(2, standingsData.group2, 'group2Body');
-        }
-
         function renderGroup(groupNum, groupData, elementId) {
             const groupBody = document.getElementById(elementId);
             groupBody.innerHTML = '';
@@ -1101,20 +852,11 @@
             sortedGroup.forEach((teamData, index) => {
                 const team = teams[teamData.team];
                 const row = document.createElement('tr');
-                
-                // Qualification marker - TOP 4 QUALIFY (for 7 teams)
-                let markerClass = '';
-                if (index < 4) {
-                    markerClass = 'qualifies';
-                } else {
-                    markerClass = 'eliminated';
-                }
-                
+                const markerClass = index < 4 ? 'qualifies' : 'eliminated';
                 const goalsDiff = teamData.goalsFor - teamData.goalsAgainst;
                 let goalsDiffClass = 'neutral';
                 if (goalsDiff > 0) goalsDiffClass = 'positive';
                 else if (goalsDiff < 0) goalsDiffClass = 'negative';
-                
                 const goalsDiffFormatted = goalsDiff > 0 ? `+${goalsDiff}` : goalsDiff;
                 
                 row.innerHTML = `
@@ -1124,7 +866,7 @@
                     </td>
                     <td class="team-cell">
                         <div class="team-crest ${team.crestClass}">
-                            <img class="team-img" src="${team.imageUrl}" alt="${team.name}" 
+                            <img class="team-img" src="${team.imageUrl}" alt="${team.name}" loading="lazy" 
                                  onerror="this.style.display='none'; this.parentNode.innerHTML='${team.fallbackText}'; this.parentNode.style.fontSize='14px'; this.parentNode.style.fontWeight='800';">
                         </div>
                         ${team.name}
@@ -1138,84 +880,49 @@
                     <td><span class="goals-diff ${goalsDiffClass}">${goalsDiffFormatted}</span></td>
                     <td class="points-cell">${teamData.points}</td>
                 `;
-                
                 groupBody.appendChild(row);
             });
         }
 
         function calculateGroupStats() {
-            const group1Matches = standingsData.group1.reduce((sum, team) => sum + team.played, 0) / 2;
-            const group1Goals = standingsData.group1.reduce((sum, team) => sum + team.goalsFor, 0);
-            const group1Avg = group1Matches > 0 ? (group1Goals / group1Matches).toFixed(1) : "0.0";
+            const g1m = standingsData.group1.reduce((s, t) => s + t.played, 0) / 2;
+            const g1g = standingsData.group1.reduce((s, t) => s + t.goalsFor, 0);
+            const g2m = standingsData.group2.reduce((s, t) => s + t.played, 0) / 2;
+            const g2g = standingsData.group2.reduce((s, t) => s + t.goalsFor, 0);
             
-            const group2Matches = standingsData.group2.reduce((sum, team) => sum + team.played, 0) / 2;
-            const group2Goals = standingsData.group2.reduce((sum, team) => sum + team.goalsFor, 0);
-            const group2Avg = group2Matches > 0 ? (group2Goals / group2Matches).toFixed(1) : "0.0";
-            
-            document.getElementById('group1Matches').textContent = group1Matches;
-            document.getElementById('group1Goals').textContent = group1Goals;
-            document.getElementById('group1Avg').textContent = group1Avg;
-            
-            document.getElementById('group2Matches').textContent = group2Matches;
-            document.getElementById('group2Goals').textContent = group2Goals;
-            document.getElementById('group2Avg').textContent = group2Avg;
+            document.getElementById('group1Matches').textContent = g1m;
+            document.getElementById('group1Goals').textContent = g1g;
+            document.getElementById('group1Avg').textContent = g1m > 0 ? (g1g / g1m).toFixed(1) : "0.0";
+            document.getElementById('group2Matches').textContent = g2m;
+            document.getElementById('group2Goals').textContent = g2g;
+            document.getElementById('group2Avg').textContent = g2m > 0 ? (g2g / g2m).toFixed(1) : "0.0";
+        }
+
+        function updateDisplay() {
+            renderGroup(1, standingsData.group1, 'group1Body');
+            renderGroup(2, standingsData.group2, 'group2Body');
+            calculateGroupStats();
         }
 
         function updateMatchResults(results) {
-            results.forEach(result => {
-                updateStandingsWithMatch(
-                    result.home, 
-                    result.away, 
-                    result.homeScore, 
-                    result.awayScore
-                );
+            results.forEach(r => {
+                const hg = teams[r.home].group === 1 ? standingsData.group1 : standingsData.group2;
+                const ag = teams[r.away].group === 1 ? standingsData.group1 : standingsData.group2;
+                const ht = hg.find(t => t.team === r.home);
+                const at = ag.find(t => t.team === r.away);
+                if (ht && at) {
+                    ht.played++; at.played++;
+                    ht.goalsFor += r.homeScore; ht.goalsAgainst += r.awayScore;
+                    at.goalsFor += r.awayScore; at.goalsAgainst += r.homeScore;
+                    if (r.homeScore > r.awayScore) { ht.won++; at.lost++; ht.points += 3; }
+                    else if (r.homeScore < r.awayScore) { at.won++; ht.lost++; at.points += 3; }
+                    else { ht.drawn++; at.drawn++; ht.points++; at.points++; }
+                }
             });
-            
-            standingsData.lastUpdated = new Date().toLocaleString('en-US', { 
-                month: 'short', 
-                day: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit'
-            });
-            
             updateDisplay();
         }
 
-        function updateStandingsWithMatch(homeTeamCode, awayTeamCode, homeScore, awayScore) {
-            const homeTeamGroup = teams[homeTeamCode].group;
-            const awayTeamGroup = teams[awayTeamCode].group;
-            
-            const homeGroup = homeTeamGroup === 1 ? standingsData.group1 : standingsData.group2;
-            const awayGroup = awayTeamGroup === 1 ? standingsData.group1 : standingsData.group2;
-            
-            const homeTeam = homeGroup.find(t => t.team === homeTeamCode);
-            const awayTeam = awayGroup.find(t => t.team === awayTeamCode);
-            
-            if (homeTeam && awayTeam) {
-                homeTeam.played += 1;
-                awayTeam.played += 1;
-                
-                homeTeam.goalsFor += homeScore;
-                homeTeam.goalsAgainst += awayScore;
-                awayTeam.goalsFor += awayScore;
-                awayTeam.goalsAgainst += homeScore;
-                
-                if (homeScore > awayScore) {
-                    homeTeam.won += 1;
-                    awayTeam.lost += 1;
-                    homeTeam.points += 3;
-                } else if (homeScore < awayScore) {
-                    awayTeam.won += 1;
-                    homeTeam.lost += 1;
-                    awayTeam.points += 3;
-                } else {
-                    homeTeam.drawn += 1;
-                    awayTeam.drawn += 1;
-                    homeTeam.points += 1;
-                    awayTeam.points += 1;
-                }
-            }
-        }
+        document.addEventListener('DOMContentLoaded', updateDisplay);
     </script>
 </body>
 </html>
