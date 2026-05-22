@@ -7,28 +7,21 @@
     <style>
         :root {
             --gold: #FFD700;
-            --silver: #C0C0C0;
-            --bronze: #CD7F32;
-            --ebony-bg: #0D0D0D;
-            --ebony-surface: #1A1A1A;
-            --ebony-card: #222222;
-            --ebony-border: #333333;
+            --gold-dark: #B8860B;
+            --gold-light: #FFC125;
+            --ebony-bg: #0a0a05;
+            --ebony-surface: #1a1a15;
+            --ebony-card: #222218;
+            --ebony-border: #3a3a2a;
             --text-primary: #FFFFFF;
             --text-secondary: #AAAAAA;
-            --text-tertiary: #777777;
-            --accent-color: #4A90E2;
-            --accent-glow: rgba(74, 144, 226, 0.3);
-            --table-header-bg: #151515;
-            
-            /* Group Colors */
-            --group-1-color: #4A90E2;
-            --group-2-color: #FF6B6B;
-            
-            /* Qualification Colors */
+            --text-tertiary: #888888;
+            --accent-color: #FFD700;
+            --accent-glow: rgba(255, 215, 0, 0.3);
+            --group-1-color: #FFD700;
+            --group-2-color: #DAA520;
             --qualify-color: #00FF00;
             --eliminate-color: #FF4444;
-            
-            /* Team Colors */
             --destroyers: #FF4444;
             --pxg: #FFB347;
             --vanguard: #4D4DFF;
@@ -63,18 +56,53 @@
             min-height: 100vh;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Golden ambient background */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(ellipse at 20% 50%, rgba(255, 215, 0, 0.04) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(218, 165, 32, 0.03) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 80%, rgba(255, 193, 7, 0.04) 0%, transparent 50%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Cursor glow effect */
+        .cursor-glow {
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(255, 215, 0, 0.08) 0%, rgba(218, 165, 32, 0.04) 30%, transparent 70%);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            transition: opacity 0.3s;
         }
         
         .container {
             width: 1200px;
             max-width: 100%;
-            background-color: var(--ebony-surface);
+            background: linear-gradient(180deg, rgba(26, 26, 20, 0.98) 0%, rgba(20, 20, 15, 0.98) 100%);
             border-radius: 16px;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            box-shadow: 
+                0 10px 40px rgba(0, 0, 0, 0.4),
+                0 0 0 1px rgba(255, 215, 0, 0.1),
+                0 0 80px rgba(218, 165, 32, 0.05);
             padding: 40px;
             margin-bottom: 40px;
-            border: 1px solid var(--ebony-border);
+            border: 1px solid rgba(255, 215, 0, 0.15);
             position: relative;
+            z-index: 1;
             overflow: hidden;
         }
         
@@ -86,9 +114,11 @@
             right: 0;
             height: 4px;
             background: linear-gradient(90deg, 
-                var(--group-1-color) 0%, 
-                #00FFFF 50%, 
-                var(--group-2-color) 100%);
+                #FFD700 0%, 
+                #FFA500 25%,
+                #FFD700 50%, 
+                #DAA520 75%,
+                #FFD700 100%);
             z-index: 1;
         }
         
@@ -96,7 +126,7 @@
             text-align: center;
             margin-bottom: 40px;
             padding-bottom: 25px;
-            border-bottom: 1px solid var(--ebony-border);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.15);
             position: relative;
             z-index: 1;
             opacity: 0;
@@ -110,10 +140,11 @@
             color: var(--text-primary);
             margin-bottom: 12px;
             letter-spacing: -0.5px;
-            background: linear-gradient(135deg, var(--group-1-color), var(--group-2-color));
+            background: linear-gradient(135deg, #FFD700, #FFA500, #FFD700);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
+            text-shadow: none;
         }
         
         .tournament-phase {
@@ -128,20 +159,21 @@
         }
         
         .phase-badge {
-            background: linear-gradient(135deg, var(--group-1-color), var(--group-2-color));
-            color: white;
+            background: linear-gradient(135deg, #FFD700, #DAA520);
+            color: #1a1a15;
             padding: 6px 20px;
             border-radius: 20px;
             font-size: 14px;
             font-weight: 700;
             letter-spacing: 0.8px;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
         }
         
         .qualification-rules {
-            background: rgba(255, 255, 255, 0.03);
+            background: rgba(255, 215, 0, 0.03);
             padding: 15px 25px;
             border-radius: 12px;
-            border: 1px solid var(--ebony-border);
+            border: 1px solid rgba(255, 215, 0, 0.15);
             margin-top: 20px;
             display: inline-block;
         }
@@ -161,13 +193,8 @@
             border-radius: 50%;
         }
         
-        .dot-qualify {
-            background: var(--qualify-color);
-        }
-        
-        .dot-eliminate {
-            background: var(--eliminate-color);
-        }
+        .dot-qualify { background: var(--qualify-color); }
+        .dot-eliminate { background: var(--eliminate-color); }
         
         .groups-container {
             display: grid;
@@ -177,10 +204,10 @@
         }
         
         .group-card {
-            background: var(--ebony-card);
+            background: rgba(34, 34, 25, 0.9);
             border-radius: 14px;
             padding: 30px;
-            border: 1px solid var(--ebony-border);
+            border: 1px solid rgba(255, 215, 0, 0.1);
             transition: transform 0.2s ease, box-shadow 0.2s ease;
             position: relative;
             overflow: hidden;
@@ -188,18 +215,19 @@
         }
         
         .group-card.group-1 {
-            border-top: 4px solid var(--group-1-color);
+            border-top: 4px solid #FFD700;
             animation: slideInLeft 0.6s ease-out 0.2s forwards;
         }
         
         .group-card.group-2 {
-            border-top: 4px solid var(--group-2-color);
+            border-top: 4px solid #DAA520;
             animation: slideInRight 0.6s ease-out 0.4s forwards;
         }
         
         .group-card:hover {
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.1);
+            border-color: rgba(255, 215, 0, 0.3);
         }
         
         .group-header {
@@ -208,7 +236,7 @@
             justify-content: space-between;
             margin-bottom: 25px;
             padding-bottom: 15px;
-            border-bottom: 2px solid var(--ebony-border);
+            border-bottom: 2px solid rgba(255, 215, 0, 0.1);
         }
         
         .group-title {
@@ -221,8 +249,8 @@
         
         .group-title.group-1::before {
             content: 'A';
-            background: var(--group-1-color);
-            color: white;
+            background: #FFD700;
+            color: #1a1a15;
             width: 36px;
             height: 36px;
             border-radius: 50%;
@@ -231,12 +259,13 @@
             justify-content: center;
             font-weight: 800;
             font-size: 18px;
+            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
         }
         
         .group-title.group-2::before {
             content: 'B';
-            background: var(--group-2-color);
-            color: white;
+            background: #DAA520;
+            color: #1a1a15;
             width: 36px;
             height: 36px;
             border-radius: 50%;
@@ -245,13 +274,14 @@
             justify-content: center;
             font-weight: 800;
             font-size: 18px;
+            box-shadow: 0 0 20px rgba(218, 165, 32, 0.3);
         }
         
         .group-teams-count {
             font-size: 14px;
             color: var(--text-tertiary);
             font-weight: 600;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 215, 0, 0.05);
             padding: 6px 15px;
             border-radius: 20px;
         }
@@ -265,9 +295,7 @@
             border-radius: 12px;
         }
         
-        .table-container::-webkit-scrollbar {
-            display: none;
-        }
+        .table-container::-webkit-scrollbar { display: none; }
         
         .standings-table {
             width: 100%;
@@ -288,22 +316,17 @@
             text-align: center;
             font-weight: 700;
             font-size: 13px;
-            color: var(--text-secondary);
-            border-bottom: 2px solid var(--ebony-border);
+            color: #DAA520;
+            border-bottom: 2px solid rgba(255, 215, 0, 0.2);
             text-transform: uppercase;
             letter-spacing: 0.8px;
-            background: var(--ebony-bg);
+            background: rgba(10, 10, 5, 0.98);
             white-space: nowrap;
             vertical-align: middle;
         }
 
         .standings-table th:nth-child(1) { width: 70px; min-width: 60px; }
-        .standings-table th:nth-child(2) { 
-            width: 240px; 
-            min-width: 200px;
-            text-align: left; 
-            padding-left: 20px; 
-        }
+        .standings-table th:nth-child(2) { width: 240px; min-width: 200px; text-align: left; padding-left: 20px; }
         .standings-table th:nth-child(3) { width: 50px; min-width: 45px; }
         .standings-table th:nth-child(4) { width: 50px; min-width: 45px; }
         .standings-table th:nth-child(5) { width: 50px; min-width: 45px; }
@@ -311,37 +334,26 @@
         .standings-table th:nth-child(7) { width: 55px; min-width: 50px; }
         .standings-table th:nth-child(8) { width: 55px; min-width: 50px; }
         .standings-table th:nth-child(9) { width: 60px; min-width: 55px; }
-        .standings-table th:nth-child(10) { 
-            width: 70px; 
-            min-width: 65px;
-        }
+        .standings-table th:nth-child(10) { width: 70px; min-width: 65px; }
 
         .standings-table td {
             padding: 20px 15px;
             text-align: center;
             font-size: 15px;
             font-weight: 500;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.05);
             color: var(--text-secondary);
             vertical-align: middle;
             white-space: nowrap;
         }
 
-        .standings-table td:nth-child(1) { 
-            font-weight: 800;
-            font-size: 18px;
-        }
-
-        .standings-table td:nth-child(2) { 
-            text-align: left; 
-            padding-left: 20px;
-        }
-
+        .standings-table td:nth-child(1) { font-weight: 800; font-size: 18px; color: #FFD700; }
+        .standings-table td:nth-child(2) { text-align: left; padding-left: 20px; }
         .standings-table td:nth-child(10) { 
             font-weight: 800;
             font-size: 18px;
-            color: var(--accent-color);
-            background: rgba(255, 255, 255, 0.02);
+            color: #FFD700;
+            background: rgba(255, 215, 0, 0.05);
             border-radius: 8px;
         }
 
@@ -359,7 +371,7 @@
         .standings-table tbody tr:nth-child(7) { animation-delay: 0.35s; }
 
         .standings-table tbody tr:hover {
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 215, 0, 0.05);
             transition: background 0.15s ease;
         }
 
@@ -381,7 +393,7 @@
             align-items: center;
             justify-content: center;
             overflow: hidden;
-            border: 2px solid rgba(255, 255, 255, 0.15);
+            border: 2px solid rgba(255, 215, 0, 0.2);
             flex-shrink: 0;
             font-weight: 800;
             font-size: 16px;
@@ -394,7 +406,6 @@
             object-fit: cover;
         }
         
-        /* Team Crest Colors - Group A */
         .destroyers-crest { background: linear-gradient(135deg, var(--destroyers), #cc0000); }
         .pxg-crest { background: linear-gradient(135deg, var(--pxg), #cc7a00); }
         .vanguard-crest { background: linear-gradient(135deg, var(--vanguard), #3333cc); }
@@ -402,8 +413,6 @@
         .strawhat-crest { background: linear-gradient(135deg, var(--strawhat), #cc8800); }
         .blues-crest { background: linear-gradient(135deg, var(--blues), #2a4a9c); }
         .speedstars-crest { background: linear-gradient(135deg, var(--speedstars), #cc0066); }
-        
-        /* Team Crest Colors - Group B */
         .blitz-crest { background: linear-gradient(135deg, var(--blitz), #008b8b); }
         .cortisol-crest { background: linear-gradient(135deg, var(--cortisol), #228b22); }
         .egoistic-crest { background: linear-gradient(135deg, var(--egoistic), #6a3d9e); }
@@ -430,18 +439,13 @@
             border-radius: 50%;
         }
         
-        .qualifies {
-            background: var(--qualify-color);
-        }
-        
-        .eliminated {
-            background: var(--eliminate-color);
-        }
+        .qualifies { background: var(--qualify-color); }
+        .eliminated { background: var(--eliminate-color); }
         
         .points-cell {
             font-weight: 800;
             font-size: 18px;
-            background: rgba(255, 255, 255, 0.05);
+            background: rgba(255, 215, 0, 0.05);
             border-radius: 8px;
             padding: 8px 0;
         }
@@ -474,10 +478,10 @@
         }
         
         .season-info {
-            background: var(--ebony-card);
+            background: rgba(34, 34, 25, 0.9);
             padding: 30px;
             border-radius: 16px;
-            border: 1px solid var(--ebony-border);
+            border: 1px solid rgba(255, 215, 0, 0.15);
             text-align: center;
             opacity: 0;
             animation: fadeInUp 0.6s ease-out 0.6s forwards;
@@ -494,18 +498,15 @@
             justify-content: space-between;
             margin-top: 20px;
             padding-top: 20px;
-            border-top: 1px solid var(--ebony-border);
+            border-top: 1px solid rgba(255, 215, 0, 0.1);
         }
         
-        .info-item {
-            text-align: center;
-            flex: 1;
-        }
+        .info-item { text-align: center; flex: 1; }
         
         .info-value {
             font-size: 20px;
             font-weight: 700;
-            color: var(--accent-color);
+            color: #FFD700;
             margin-bottom: 5px;
         }
         
@@ -517,171 +518,34 @@
         }
         
         @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(15px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
         }
         
         @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         @keyframes slideInLeft {
-            from {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
         }
 
         @keyframes slideInRight {
-            from {
-                opacity: 0;
-                transform: translateX(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-        
-        @media (min-width: 1400px) {
-            .container {
-                width: 1400px;
-                padding: 50px;
-            }
-            .group-card {
-                padding: 40px;
-            }
-            .team-cell {
-                gap: 20px;
-            }
-            .team-crest {
-                width: 50px;
-                height: 50px;
-            }
-            .standings-table th {
-                padding: 22px 15px;
-                font-size: 14px;
-            }
-            .standings-table td {
-                padding: 24px 15px;
-                font-size: 16px;
-            }
-        }
-
-        @media (min-width: 1200px) {
-            .groups-container {
-                gap: 40px;
-            }
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
         }
         
         @media (max-width: 1024px) {
-            .container {
-                width: 95%;
-                padding: 30px 20px;
-            }
-            .groups-container {
-                grid-template-columns: 1fr;
-                gap: 25px;
-            }
-            .standings-table {
-                min-width: 700px;
-            }
-            .table-container {
-                border: 1px solid rgba(255, 255, 255, 0.1);
-                border-radius: 10px;
-                padding: 5px;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            body {
-                padding: 15px 10px;
-            }
-            .container {
-                padding: 20px 15px;
-            }
-            h1 {
-                font-size: 28px;
-            }
-            .group-card {
-                padding: 20px;
-            }
-            .qualification-rules {
-                display: none;
-            }
-            .standings-table {
-                min-width: 600px;
-            }
-            .standings-table th {
-                padding: 12px 10px;
-                font-size: 11px;
-            }
-            .standings-table td {
-                padding: 15px 10px;
-                font-size: 13px;
-            }
-            .team-cell {
-                font-size: 14px;
-                gap: 10px;
-            }
-            .team-crest {
-                width: 36px;
-                height: 36px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            h1 {
-                font-size: 24px;
-            }
-            .group-title {
-                font-size: 20px;
-            }
-            .group-title::before {
-                width: 28px;
-                height: 28px;
-                font-size: 14px;
-            }
-            .standings-table {
-                min-width: 500px;
-            }
-            .standings-table th {
-                padding: 10px 8px;
-                font-size: 10px;
-            }
-            .standings-table td {
-                padding: 12px 8px;
-                font-size: 12px;
-            }
-            .team-cell {
-                font-size: 13px;
-                gap: 8px;
-            }
-            .team-crest {
-                width: 32px;
-                height: 32px;
-            }
+            .groups-container { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
+    <!-- Cursor glow element -->
+    <div class="cursor-glow" id="cursorGlow"></div>
+    
     <div class="container">
         <header>
             <h1>Genesis Season 1</h1>
@@ -792,12 +656,30 @@
         </div>
         
         <div class="season-info">
-            <div class="section-title" style="margin-bottom: 15px; font-size: 24px; font-weight: 700;">📋 Season Status</div>
+            <div class="section-title" style="margin-bottom: 15px; font-size: 24px; font-weight: 700; color: #FFD700;">📋 Season Status</div>
             <div class="season-status-text">
                 New season is about to begin! Matchdays and fixtures will be announced soon.
             </div>
         </div>
     </div>
+
+    <!-- Cursor glow script -->
+    <script>
+        const cursorGlow = document.getElementById('cursorGlow');
+        
+        document.addEventListener('mousemove', (e) => {
+            cursorGlow.style.left = e.clientX + 'px';
+            cursorGlow.style.top = e.clientY + 'px';
+        });
+        
+        document.addEventListener('mouseleave', () => {
+            cursorGlow.style.opacity = '0';
+        });
+        
+        document.addEventListener('mouseenter', () => {
+            cursorGlow.style.opacity = '1';
+        });
+    </script>
 
     <script>
         const teams = {
