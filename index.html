@@ -60,7 +60,6 @@
             overflow-x: hidden;
         }
 
-        /* Golden ambient background */
         body::before {
             content: '';
             position: fixed;
@@ -76,7 +75,6 @@
             z-index: 0;
         }
 
-        /* Cursor glow effect */
         .cursor-glow {
             width: 400px;
             height: 400px;
@@ -477,6 +475,123 @@
             border: 1px solid rgba(255, 255, 255, 0.1);
         }
         
+        .fixtures-section {
+            margin-bottom: 50px;
+        }
+        
+        .fixtures-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 25px;
+        }
+        
+        .fixtures-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: #FFD700;
+        }
+        
+        .matchday-badge {
+            background: linear-gradient(135deg, #FFD700, #DAA520);
+            color: #1a1a15;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 700;
+            letter-spacing: 0.8px;
+        }
+        
+        .fixtures-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        .fixture-card {
+            background: rgba(34, 34, 25, 0.9);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 215, 0, 0.1);
+            transition: transform 0.2s ease, border-color 0.2s ease;
+            opacity: 0;
+            animation: fadeInUp 0.5s ease-out 0.6s forwards;
+        }
+        
+        .fixture-card:hover {
+            border-color: rgba(255, 215, 0, 0.4);
+            transform: translateY(-2px);
+        }
+        
+        .fixture-teams {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .fixture-team {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex: 1;
+        }
+        
+        .fixture-team:first-child {
+            justify-content: flex-end;
+            text-align: right;
+        }
+        
+        .fixture-team:last-child {
+            justify-content: flex-start;
+            text-align: left;
+        }
+        
+        .fixture-team-name {
+            font-weight: 600;
+            font-size: 14px;
+            color: var(--text-primary);
+        }
+        
+        .fixture-vs {
+            font-weight: 800;
+            font-size: 18px;
+            color: #FFD700;
+            margin: 0 15px;
+            min-width: 40px;
+            text-align: center;
+        }
+        
+        .fixture-crest {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            flex-shrink: 0;
+            font-weight: 700;
+            font-size: 12px;
+            color: white;
+        }
+        
+        .fixture-crest-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .fixture-status {
+            text-align: center;
+            margin-top: 12px;
+            font-size: 12px;
+            color: var(--text-tertiary);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
         .season-info {
             background: rgba(34, 34, 25, 0.9);
             padding: 30px;
@@ -484,7 +599,7 @@
             border: 1px solid rgba(255, 215, 0, 0.15);
             text-align: center;
             opacity: 0;
-            animation: fadeInUp 0.6s ease-out 0.6s forwards;
+            animation: fadeInUp 0.6s ease-out 0.8s forwards;
         }
         
         .season-status-text {
@@ -539,11 +654,17 @@
         
         @media (max-width: 1024px) {
             .groups-container { grid-template-columns: 1fr; }
+            .fixtures-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        
+        @media (max-width: 768px) {
+            .fixtures-grid { grid-template-columns: 1fr; }
+            .container { padding: 20px 15px; }
+            h1 { font-size: 28px; }
         }
     </style>
 </head>
 <body>
-    <!-- Cursor glow element -->
     <div class="cursor-glow" id="cursorGlow"></div>
     
     <div class="container">
@@ -551,7 +672,7 @@
             <h1>Genesis Season 1</h1>
             <div class="tournament-phase">
                 <span>Group Stage</span>
-                <div class="phase-badge">TWO GROUPS • SEVEN TEAMS EACH</div>
+                <div class="phase-badge">MATCHDAY 1</div>
             </div>
             <p class="subtitle" id="seasonStatus">Top 4 from each group qualify for Playoffs</p>
             
@@ -566,6 +687,132 @@
                 </div>
             </div>
         </header>
+        
+        <!-- Matchday 1 Fixtures -->
+        <div class="fixtures-section">
+            <div class="fixtures-header">
+                <div class="fixtures-title">⚽ Matchday 1 Fixtures</div>
+                <div class="matchday-badge">UPCOMING</div>
+            </div>
+            
+            <div class="fixtures-grid" id="fixturesGrid">
+                <!-- Group A Fixtures -->
+                <div class="fixture-card">
+                    <div class="fixture-teams">
+                        <div class="fixture-team">
+                            <span class="fixture-team-name">VanGuard FC</span>
+                            <div class="fixture-crest vanguard-crest">
+                                <img class="fixture-crest-img" src="images/vanguard.png" alt="VanGuard" onerror="this.style.display='none'; this.parentNode.innerHTML='VNG'">
+                            </div>
+                        </div>
+                        <div class="fixture-vs">VS</div>
+                        <div class="fixture-team">
+                            <div class="fixture-crest strawhat-crest">
+                                <img class="fixture-crest-img" src="images/strawhat.png" alt="StrawHat" onerror="this.style.display='none'; this.parentNode.innerHTML='SHB'">
+                            </div>
+                            <span class="fixture-team-name">StrawHat Ballers</span>
+                        </div>
+                    </div>
+                    <div class="fixture-status">Group A</div>
+                </div>
+                
+                <div class="fixture-card">
+                    <div class="fixture-teams">
+                        <div class="fixture-team">
+                            <span class="fixture-team-name">Destroyers</span>
+                            <div class="fixture-crest destroyers-crest">
+                                <img class="fixture-crest-img" src="images/destroyers.png" alt="Destroyers" onerror="this.style.display='none'; this.parentNode.innerHTML='DES'">
+                            </div>
+                        </div>
+                        <div class="fixture-vs">VS</div>
+                        <div class="fixture-team">
+                            <div class="fixture-crest blues-crest">
+                                <img class="fixture-crest-img" src="images/blues.png" alt="Blues" onerror="this.style.display='none'; this.parentNode.innerHTML='BLU'">
+                            </div>
+                            <span class="fixture-team-name">The Blues</span>
+                        </div>
+                    </div>
+                    <div class="fixture-status">Group A</div>
+                </div>
+                
+                <div class="fixture-card">
+                    <div class="fixture-teams">
+                        <div class="fixture-team">
+                            <span class="fixture-team-name">SpeedStars</span>
+                            <div class="fixture-crest speedstars-crest">
+                                <img class="fixture-crest-img" src="images/speedstars.png" alt="SpeedStars" onerror="this.style.display='none'; this.parentNode.innerHTML='CSS'">
+                            </div>
+                        </div>
+                        <div class="fixture-vs">VS</div>
+                        <div class="fixture-team">
+                            <div class="fixture-crest haramball-crest">
+                                <img class="fixture-crest-img" src="images/haramball.png" alt="Haramball" onerror="this.style.display='none'; this.parentNode.innerHTML='HBU'">
+                            </div>
+                            <span class="fixture-team-name">Haramball Utd</span>
+                        </div>
+                    </div>
+                    <div class="fixture-status">Group A</div>
+                </div>
+                
+                <!-- Group B Fixtures -->
+                <div class="fixture-card">
+                    <div class="fixture-teams">
+                        <div class="fixture-team">
+                            <span class="fixture-team-name">Vortex Vipers</span>
+                            <div class="fixture-crest vortex-crest">
+                                <img class="fixture-crest-img" src="images/vortex.png" alt="Vortex" onerror="this.style.display='none'; this.parentNode.innerHTML='VOR'">
+                            </div>
+                        </div>
+                        <div class="fixture-vs">VS</div>
+                        <div class="fixture-team">
+                            <div class="fixture-crest vallhala-crest">
+                                <img class="fixture-crest-img" src="images/vallhala.png" alt="Vallhala" onerror="this.style.display='none'; this.parentNode.innerHTML='VAL'">
+                            </div>
+                            <span class="fixture-team-name">Vallhala FC</span>
+                        </div>
+                    </div>
+                    <div class="fixture-status">Group B</div>
+                </div>
+                
+                <div class="fixture-card">
+                    <div class="fixture-teams">
+                        <div class="fixture-team">
+                            <span class="fixture-team-name">Blitz Grandpas</span>
+                            <div class="fixture-crest blitz-crest">
+                                <img class="fixture-crest-img" src="images/blitz.png" alt="Blitz" onerror="this.style.display='none'; this.parentNode.innerHTML='BLZ'">
+                            </div>
+                        </div>
+                        <div class="fixture-vs">VS</div>
+                        <div class="fixture-team">
+                            <div class="fixture-crest egoistic-crest">
+                                <img class="fixture-crest-img" src="images/egoistic.png" alt="Egoistic" onerror="this.style.display='none'; this.parentNode.innerHTML='EKN'">
+                            </div>
+                            <span class="fixture-team-name">Egoistic Knights</span>
+                        </div>
+                    </div>
+                    <div class="fixture-status">Group B</div>
+                </div>
+                
+                <div class="fixture-card">
+                    <div class="fixture-teams">
+                        <div class="fixture-team">
+                            <span class="fixture-team-name">Cortisol FC</span>
+                            <div class="fixture-crest cortisol-crest">
+                                <img class="fixture-crest-img" src="images/cortisol.png" alt="Cortisol" onerror="this.style.display='none'; this.parentNode.innerHTML='COR'">
+                            </div>
+                        </div>
+                        <div class="fixture-vs">VS</div>
+                        <div class="fixture-team">
+                            <div class="fixture-crest spartans-crest">
+                                <img class="fixture-crest-img" src="images/spartans.png" alt="Spartans" onerror="this.style.display='none'; this.parentNode.innerHTML='SPL'">
+                            </div>
+                            <span class="fixture-team-name">Spartans Legion</span>
+                        </div>
+                    </div>
+                    <div class="fixture-status">Group B</div>
+                </div>
+            </div>
+        </div>
         
         <div class="groups-container">
             <!-- Group A -->
@@ -658,12 +905,11 @@
         <div class="season-info">
             <div class="section-title" style="margin-bottom: 15px; font-size: 24px; font-weight: 700; color: #FFD700;">📋 Season Status</div>
             <div class="season-status-text">
-                New season is about to begin! Matchdays and fixtures will be announced soon.
+                Matchday 1 fixtures are set! PXG (Group A) and Remontada FC (Group B) have a bye this matchday.
             </div>
         </div>
     </div>
 
-    <!-- Cursor glow script -->
     <script>
         const cursorGlow = document.getElementById('cursorGlow');
         
