@@ -1,1056 +1,916 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Genesis Season 1 - Elite League | Group Stage</title>
-    <style>
-        :root {
-            --gold: #FFD700;
-            --gold-dark: #B8860B;
-            --gold-light: #FFC125;
-            --ebony-bg: #0a0a05;
-            --ebony-surface: #1a1a15;
-            --ebony-card: #222218;
-            --ebony-border: #3a3a2a;
-            --text-primary: #FFFFFF;
-            --text-secondary: #AAAAAA;
-            --text-tertiary: #888888;
-            --accent-color: #FFD700;
-            --accent-glow: rgba(255, 215, 0, 0.3);
-            --group-1-color: #FFD700;
-            --group-2-color: #DAA520;
-            --qualify-color: #00FF00;
-            --eliminate-color: #FF4444;
-            --destroyers: #FF4444;
-            --pxg: #FFB347;
-            --vanguard: #4D4DFF;
-            --haramball: #AAAAAA;
-            --strawhat: #FFD700;
-            --blues: #4169E1;
-            --speedstars: #FF1493;
-            --blitz: #00CED1;
-            --cortisol: #32CD32;
-            --egoistic: #9370DB;
-            --remontada: #FF6347;
-            --spartans: #B8860B;
-            --vallhala: #708090;
-            --vortex: #00FF7F;
-        }
-        
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-        }
-        
-        body {
-            background-color: var(--ebony-bg);
-            color: var(--text-primary);
-            line-height: 1.5;
-            padding: 30px 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-            -webkit-font-smoothing: antialiased;
-            -moz-osx-font-smoothing: grayscale;
-            position: relative;
-            overflow-x: hidden;
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>BIFA World Cup • Season 1 | Group Stage</title>
+  <style>
+    :root {
+      --bifa-red-dark: #741311;
+      --bifa-red: #d60100;
+      --bifa-green-dark: #004c40;
+      --bifa-green: #01c853;
+      --bifa-lime: #afe906;
+      --bifa-blue-dark: #1d2282;
+      --bifa-blue: #3051f5;
+      --bg-deep: #0a0a0c;
+      --surface: #14141a;
+      --card: #1c1c24;
+      --text-primary: #ffffff;
+      --text-secondary: #cbd5e1;
+      --text-muted: #94a3b8;
+      --qualify: #01c853;
+      --eliminate: #d60100;
+    }
 
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-                radial-gradient(ellipse at 20% 50%, rgba(255, 215, 0, 0.04) 0%, transparent 50%),
-                radial-gradient(ellipse at 80% 20%, rgba(218, 165, 32, 0.03) 0%, transparent 50%),
-                radial-gradient(ellipse at 50% 80%, rgba(255, 193, 7, 0.04) 0%, transparent 50%);
-            pointer-events: none;
-            z-index: 0;
-        }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+    }
 
-        .cursor-glow {
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(255, 215, 0, 0.08) 0%, rgba(218, 165, 32, 0.04) 30%, transparent 70%);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9998;
-            transform: translate(-50%, -50%);
-            transition: opacity 0.3s;
-        }
-        
-        .container {
-            width: 1200px;
-            max-width: 100%;
-            background: linear-gradient(180deg, rgba(26, 26, 20, 0.98) 0%, rgba(20, 20, 15, 0.98) 100%);
-            border-radius: 16px;
-            box-shadow: 
-                0 10px 40px rgba(0, 0, 0, 0.4),
-                0 0 0 1px rgba(255, 215, 0, 0.1),
-                0 0 80px rgba(218, 165, 32, 0.05);
-            padding: 40px;
-            margin-bottom: 40px;
-            border: 1px solid rgba(255, 215, 0, 0.15);
-            position: relative;
-            z-index: 1;
-            overflow: hidden;
-        }
-        
-        .container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, 
-                #FFD700 0%, 
-                #FFA500 25%,
-                #FFD700 50%, 
-                #DAA520 75%,
-                #FFD700 100%);
-            z-index: 1;
-        }
-        
-        header {
-            text-align: center;
-            margin-bottom: 40px;
-            padding-bottom: 25px;
-            border-bottom: 1px solid rgba(255, 215, 0, 0.15);
-            position: relative;
-            z-index: 1;
-            opacity: 0;
-            transform: translateY(-20px);
-            animation: fadeInDown 0.6s ease-out forwards;
-        }
-        
-        h1 {
-            font-size: 42px;
-            font-weight: 800;
-            color: var(--text-primary);
-            margin-bottom: 12px;
-            letter-spacing: -0.5px;
-            background: linear-gradient(135deg, #FFD700, #FFA500, #FFD700);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            text-shadow: none;
-        }
-        
-        .tournament-phase {
-            font-size: 20px;
-            color: var(--text-secondary);
-            font-weight: 600;
-            margin: 10px 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 15px;
-        }
-        
-        .phase-badge {
-            background: linear-gradient(135deg, #FFD700, #DAA520);
-            color: #1a1a15;
-            padding: 6px 20px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: 0.8px;
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.2);
-        }
-        
-        .qualification-rules {
-            background: rgba(255, 215, 0, 0.03);
-            padding: 15px 25px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 215, 0, 0.15);
-            margin-top: 20px;
-            display: inline-block;
-        }
-        
-        .rule-item {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin: 8px 0;
-            font-size: 14px;
-            color: var(--text-secondary);
-        }
-        
-        .rule-dot {
-            width: 10px;
-            height: 10px;
-            border-radius: 50%;
-        }
-        
-        .dot-qualify { background: var(--qualify-color); }
-        .dot-eliminate { background: var(--eliminate-color); }
-        
-        .groups-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 30px;
-            margin-bottom: 50px;
-        }
-        
-        .group-card {
-            background: rgba(34, 34, 25, 0.9);
-            border-radius: 14px;
-            padding: 30px;
-            border: 1px solid rgba(255, 215, 0, 0.1);
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
-            position: relative;
-            overflow: hidden;
-            opacity: 0;
-        }
-        
-        .group-card.group-1 {
-            border-top: 4px solid #FFD700;
-            animation: slideInLeft 0.6s ease-out 0.2s forwards;
-        }
-        
-        .group-card.group-2 {
-            border-top: 4px solid #DAA520;
-            animation: slideInRight 0.6s ease-out 0.4s forwards;
-        }
-        
-        .group-card:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.1);
-            border-color: rgba(255, 215, 0, 0.3);
-        }
-        
-        .group-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 25px;
-            padding-bottom: 15px;
-            border-bottom: 2px solid rgba(255, 215, 0, 0.1);
-        }
-        
-        .group-title {
-            font-size: 24px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-        
-        .group-title.group-1::before {
-            content: 'A';
-            background: #FFD700;
-            color: #1a1a15;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 18px;
-            box-shadow: 0 0 20px rgba(255, 215, 0, 0.3);
-        }
-        
-        .group-title.group-2::before {
-            content: 'B';
-            background: #DAA520;
-            color: #1a1a15;
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 800;
-            font-size: 18px;
-            box-shadow: 0 0 20px rgba(218, 165, 32, 0.3);
-        }
-        
-        .group-teams-count {
-            font-size: 14px;
-            color: var(--text-tertiary);
-            font-weight: 600;
-            background: rgba(255, 215, 0, 0.05);
-            padding: 6px 15px;
-            border-radius: 20px;
-        }
-        
-        .table-container {
-            width: 100%;
-            overflow-x: auto;
-            margin-top: 20px;
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-            border-radius: 12px;
-        }
-        
-        .table-container::-webkit-scrollbar { display: none; }
-        
-        .standings-table {
-            width: 100%;
-            border-collapse: separate;
-            border-spacing: 0;
-            min-width: 800px;
-            background: transparent;
-        }
-        
-        .standings-table thead {
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
+    body {
+      background: radial-gradient(circle at 30% 10%, rgba(214, 1, 0, 0.08) 0%, transparent 45%),
+                  radial-gradient(circle at 80% 70%, rgba(1, 200, 83, 0.07) 0%, transparent 50%),
+                  radial-gradient(circle at 10% 85%, #1d2282 0%, transparent 55%),
+                  var(--bg-deep);
+      color: var(--text-primary);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1.5rem;
+      line-height: 1.5;
+      position: relative;
+      overflow-x: hidden;
+    }
 
-        .standings-table th {
-            padding: 18px 15px;
-            text-align: center;
-            font-weight: 700;
-            font-size: 13px;
-            color: #DAA520;
-            border-bottom: 2px solid rgba(255, 215, 0, 0.2);
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-            background: rgba(10, 10, 5, 0.98);
-            white-space: nowrap;
-            vertical-align: middle;
-        }
+    .cursor-glow {
+      width: 380px;
+      height: 380px;
+      background: radial-gradient(circle, rgba(175, 233, 6, 0.08) 0%, rgba(48, 81, 245, 0.05) 40%, transparent 75%);
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 9998;
+      transform: translate(-50%, -50%);
+      transition: opacity 0.25s;
+    }
 
-        .standings-table th:nth-child(1) { width: 70px; min-width: 60px; }
-        .standings-table th:nth-child(2) { width: 240px; min-width: 200px; text-align: left; padding-left: 20px; }
-        .standings-table th:nth-child(3) { width: 50px; min-width: 45px; }
-        .standings-table th:nth-child(4) { width: 50px; min-width: 45px; }
-        .standings-table th:nth-child(5) { width: 50px; min-width: 45px; }
-        .standings-table th:nth-child(6) { width: 50px; min-width: 45px; }
-        .standings-table th:nth-child(7) { width: 55px; min-width: 50px; }
-        .standings-table th:nth-child(8) { width: 55px; min-width: 50px; }
-        .standings-table th:nth-child(9) { width: 60px; min-width: 55px; }
-        .standings-table th:nth-child(10) { width: 70px; min-width: 65px; }
+    .container {
+      width: 1280px;
+      max-width: 100%;
+      background: rgba(20, 20, 28, 0.9);
+      backdrop-filter: blur(14px);
+      border-radius: 2.5rem;
+      box-shadow: 0 25px 50px -10px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(175, 233, 6, 0.15);
+      padding: 2.5rem 2.2rem;
+      margin-bottom: 2.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      position: relative;
+      z-index: 2;
+      overflow: hidden;
+    }
 
-        .standings-table td {
-            padding: 20px 15px;
-            text-align: center;
-            font-size: 15px;
-            font-weight: 500;
-            border-bottom: 1px solid rgba(255, 215, 0, 0.05);
-            color: var(--text-secondary);
-            vertical-align: middle;
-            white-space: nowrap;
-        }
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(90deg, #741311, #d60100, #004c40, #01c853, #afe906, #1d2282, #3051f5);
+      border-radius: 2.5rem 2.5rem 0 0;
+    }
 
-        .standings-table td:nth-child(1) { font-weight: 800; font-size: 18px; color: #FFD700; }
-        .standings-table td:nth-child(2) { text-align: left; padding-left: 20px; }
-        .standings-table td:nth-child(10) { 
-            font-weight: 800;
-            font-size: 18px;
-            color: #FFD700;
-            background: rgba(255, 215, 0, 0.05);
-            border-radius: 8px;
-        }
+    header {
+      text-align: center;
+      margin-bottom: 2.8rem;
+      padding-bottom: 1.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      opacity: 0;
+      animation: fadeDown 0.65s ease-out forwards;
+    }
 
-        .standings-table tbody tr {
-            opacity: 0;
-            animation: fadeInUp 0.4s ease-out forwards;
-        }
+    h1 {
+      font-size: 3.4rem;
+      font-weight: 750;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #d60100, #afe906, #3051f5, #01c853);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.4rem;
+    }
 
-        .standings-table tbody tr:nth-child(1) { animation-delay: 0.05s; }
-        .standings-table tbody tr:nth-child(2) { animation-delay: 0.1s; }
-        .standings-table tbody tr:nth-child(3) { animation-delay: 0.15s; }
-        .standings-table tbody tr:nth-child(4) { animation-delay: 0.2s; }
-        .standings-table tbody tr:nth-child(5) { animation-delay: 0.25s; }
-        .standings-table tbody tr:nth-child(6) { animation-delay: 0.3s; }
-        .standings-table tbody tr:nth-child(7) { animation-delay: 0.35s; }
+    .tournament-phase {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.2rem;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      margin: 0.8rem 0;
+      flex-wrap: wrap;
+    }
 
-        .standings-table tbody tr:hover {
-            background: rgba(255, 215, 0, 0.05);
-            transition: background 0.15s ease;
-        }
+    .phase-badge {
+      background: linear-gradient(120deg, #004c40, #01c853);
+      color: #ffffff;
+      padding: 0.4rem 1.8rem;
+      border-radius: 3rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      letter-spacing: 0.7px;
+      box-shadow: 0 6px 18px rgba(1, 200, 83, 0.3);
+    }
 
-        .team-cell {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            text-align: left;
-            font-weight: 600;
-            font-size: 16px;
-            color: var(--text-primary);
-        }
-        
-        .team-crest {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            border: 2px solid rgba(255, 215, 0, 0.2);
-            flex-shrink: 0;
-            font-weight: 800;
-            font-size: 16px;
-            color: white;
-        }
-        
-        .team-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .destroyers-crest { background: linear-gradient(135deg, var(--destroyers), #cc0000); }
-        .pxg-crest { background: linear-gradient(135deg, var(--pxg), #cc7a00); }
-        .vanguard-crest { background: linear-gradient(135deg, var(--vanguard), #3333cc); }
-        .haramball-crest { background: linear-gradient(135deg, var(--haramball), #666666); }
-        .strawhat-crest { background: linear-gradient(135deg, var(--strawhat), #cc8800); }
-        .blues-crest { background: linear-gradient(135deg, var(--blues), #2a4a9c); }
-        .speedstars-crest { background: linear-gradient(135deg, var(--speedstars), #cc0066); }
-        .blitz-crest { background: linear-gradient(135deg, var(--blitz), #008b8b); }
-        .cortisol-crest { background: linear-gradient(135deg, var(--cortisol), #228b22); }
-        .egoistic-crest { background: linear-gradient(135deg, var(--egoistic), #6a3d9e); }
-        .remontada-crest { background: linear-gradient(135deg, var(--remontada), #cc3300); }
-        .spartans-crest { background: linear-gradient(135deg, var(--spartans), #8b6508); }
-        .vallhala-crest { background: linear-gradient(135deg, var(--vallhala), #4a5568); }
-        .vortex-crest { background: linear-gradient(135deg, var(--vortex), #00cc66); }
-        
-        .position-cell {
-            font-weight: 800;
-            font-size: 18px;
-            width: 40px;
-            text-align: center;
-            position: relative;
-        }
-        
-        .qualification-marker {
-            position: absolute;
-            left: 5px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-        }
-        
-        .qualifies { background: var(--qualify-color); }
-        .eliminated { background: var(--eliminate-color); }
-        
-        .points-cell {
-            font-weight: 800;
-            font-size: 18px;
-            background: rgba(255, 215, 0, 0.05);
-            border-radius: 8px;
-            padding: 8px 0;
-        }
-        
-        .goals-diff {
-            font-weight: 700;
-            font-size: 14px;
-            padding: 6px 12px;
-            border-radius: 20px;
-            display: inline-block;
-            min-width: 50px;
-        }
-        
-        .positive {
-            background: rgba(0, 255, 0, 0.1);
-            color: #00FF00;
-            border: 1px solid rgba(0, 255, 0, 0.3);
-        }
-        
-        .negative {
-            background: rgba(255, 68, 68, 0.1);
-            color: #FF4444;
-            border: 1px solid rgba(255, 68, 68, 0.3);
-        }
-        
-        .neutral {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-secondary);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-        
-        .fixtures-section {
-            margin-bottom: 50px;
-        }
-        
-        .fixtures-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 25px;
-        }
-        
-        .fixtures-title {
-            font-size: 24px;
-            font-weight: 700;
-            color: #FFD700;
-        }
-        
-        .matchday-badge {
-            background: linear-gradient(135deg, #FFD700, #DAA520);
-            color: #1a1a15;
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: 700;
-            letter-spacing: 0.8px;
-        }
-        
-        .fixtures-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 20px;
-        }
-        
-        .fixture-card {
-            background: rgba(34, 34, 25, 0.9);
-            padding: 20px;
-            border-radius: 12px;
-            border: 1px solid rgba(255, 215, 0, 0.1);
-            transition: transform 0.2s ease, border-color 0.2s ease;
-            opacity: 0;
-            animation: fadeInUp 0.5s ease-out 0.6s forwards;
-        }
-        
-        .fixture-card:hover {
-            border-color: rgba(255, 215, 0, 0.4);
-            transform: translateY(-2px);
-        }
-        
-        .fixture-teams {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
-        
-        .fixture-team {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            flex: 1;
-        }
-        
-        .fixture-team:first-child {
-            justify-content: flex-end;
-            text-align: right;
-        }
-        
-        .fixture-team:last-child {
-            justify-content: flex-start;
-            text-align: left;
-        }
-        
-        .fixture-team-name {
-            font-weight: 600;
-            font-size: 14px;
-            color: var(--text-primary);
-        }
-        
-        .fixture-vs {
-            font-weight: 800;
-            font-size: 18px;
-            color: #FFD700;
-            margin: 0 15px;
-            min-width: 40px;
-            text-align: center;
-        }
-        
-        .fixture-crest {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            flex-shrink: 0;
-            font-weight: 700;
-            font-size: 12px;
-            color: white;
-        }
-        
-        .fixture-crest-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .fixture-status {
-            text-align: center;
-            margin-top: 12px;
-            font-size: 12px;
-            color: var(--text-tertiary);
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-        
-        .season-info {
-            background: rgba(34, 34, 25, 0.9);
-            padding: 30px;
-            border-radius: 16px;
-            border: 1px solid rgba(255, 215, 0, 0.15);
-            text-align: center;
-            opacity: 0;
-            animation: fadeInUp 0.6s ease-out 0.8s forwards;
-        }
-        
-        .season-status-text {
-            color: var(--text-secondary);
-            font-size: 16px;
-            margin-top: 10px;
-        }
-        
-        .group-info {
-            display: flex;
-            justify-content: space-between;
-            margin-top: 20px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(255, 215, 0, 0.1);
-        }
-        
-        .info-item { text-align: center; flex: 1; }
-        
-        .info-value {
-            font-size: 20px;
-            font-weight: 700;
-            color: #FFD700;
-            margin-bottom: 5px;
-        }
-        
-        .info-label {
-            font-size: 12px;
-            color: var(--text-tertiary);
-            text-transform: uppercase;
-            letter-spacing: 0.8px;
-        }
-        
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    .qualification-rules {
+      background: rgba(255, 255, 255, 0.03);
+      padding: 1rem 2rem;
+      border-radius: 2.5rem;
+      border: 1px solid rgba(175, 233, 6, 0.2);
+      display: inline-flex;
+      gap: 2.5rem;
+      margin-top: 1.4rem;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
 
-        @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
+    .rule-item {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
 
-        @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        
-        @media (max-width: 1024px) {
-            .groups-container { grid-template-columns: 1fr; }
-            .fixtures-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        
-        @media (max-width: 768px) {
-            .fixtures-grid { grid-template-columns: 1fr; }
-            .container { padding: 20px 15px; }
-            h1 { font-size: 28px; }
-        }
-    </style>
+    .rule-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+    }
+    .dot-qualify { background: #01c853; box-shadow: 0 0 10px #01c853; }
+    .dot-eliminate { background: #d60100; box-shadow: 0 0 10px #d60100; }
+
+    .groups-container {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin: 2.8rem 0 2.5rem;
+    }
+
+    .group-card {
+      background: rgba(28, 28, 36, 0.8);
+      backdrop-filter: blur(8px);
+      border-radius: 2rem;
+      padding: 1.8rem 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.07);
+      transition: all 0.2s ease;
+      opacity: 0;
+      min-width: 0;
+      overflow: hidden;
+    }
+    .group-card.group-a {
+      border-top: 4px solid #d60100;
+      animation: slideLeft 0.65s ease-out 0.15s forwards;
+    }
+    .group-card.group-b {
+      border-top: 4px solid #3051f5;
+      animation: slideRight 0.65s ease-out 0.3s forwards;
+    }
+    .group-card:hover {
+      border-color: rgba(175, 233, 6, 0.5);
+      box-shadow: 0 12px 28px rgba(0,0,0,0.6);
+    }
+
+    .group-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.8rem;
+    }
+    .group-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .group-title .group-badge {
+      background: #afe906;
+      color: #0a0a0c;
+      width: 38px;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      font-weight: 800;
+      font-size: 1.1rem;
+      flex-shrink: 0;
+    }
+
+    /* ===== SCROLLABLE TABLE WRAPPER - HIDDEN SCROLLBAR ===== */
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      overflow-y: hidden;
+      border-radius: 1.2rem;
+      background: rgba(0,0,0,0.2);
+      -webkit-overflow-scrolling: touch;
+      scroll-behavior: smooth;
+      /* Hide scrollbar for Firefox */
+      scrollbar-width: none;
+      /* Hide scrollbar for IE and Edge */
+      -ms-overflow-style: none;
+    }
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .table-wrapper::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+      background: transparent;
+    }
+    .table-wrapper::-webkit-scrollbar-track {
+      display: none;
+      background: transparent;
+    }
+    .table-wrapper::-webkit-scrollbar-thumb {
+      display: none;
+      background: transparent;
+    }
+
+    .standings-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 650px;
+      white-space: nowrap;
+      font-size: 0.9rem;
+      table-layout: auto;
+    }
+    .standings-table th {
+      padding: 0.85rem 0.4rem;
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.7rem;
+      letter-spacing: 0.06em;
+      color: #afe906;
+      background: rgba(10, 10, 14, 0.9);
+      border-bottom: 2px solid rgba(175, 233, 6, 0.4);
+      text-transform: uppercase;
+      position: sticky;
+      top: 0;
+    }
+    .standings-table th:first-child {
+      padding-left: 0.8rem;
+      padding-right: 0.8rem;
+    }
+    .standings-table th:nth-child(2) {
+      text-align: left;
+      padding-left: 1rem;
+    }
+    .standings-table td {
+      padding: 0.85rem 0.4rem;
+      text-align: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      color: #dddddd;
+      font-weight: 500;
+    }
+    .standings-table tbody tr {
+      opacity: 0;
+      animation: fadeUp 0.4s ease-out forwards;
+    }
+    .standings-table tbody tr:nth-child(1) { animation-delay: 0.05s; }
+    .standings-table tbody tr:nth-child(2) { animation-delay: 0.12s; }
+    .standings-table tbody tr:nth-child(3) { animation-delay: 0.19s; }
+    .standings-table tbody tr:nth-child(4) { animation-delay: 0.26s; }
+    .standings-table tbody tr:nth-child(5) { animation-delay: 0.33s; }
+    .standings-table tbody tr:nth-child(6) { animation-delay: 0.4s; }
+    .standings-table tbody tr:nth-child(7) { animation-delay: 0.47s; }
+    .standings-table tbody tr:nth-child(8) { animation-delay: 0.54s; }
+    .standings-table tbody tr:nth-child(9) { animation-delay: 0.61s; }
+    .standings-table tbody tr:nth-child(10) { animation-delay: 0.68s; }
+
+    .standings-table tbody tr:hover {
+      background: rgba(175, 233, 6, 0.04);
+    }
+
+    .team-cell {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      text-align: left;
+      font-weight: 650;
+      color: white;
+      padding-left: 0.3rem;
+    }
+    .team-crest {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 2px solid rgba(175, 233, 6, 0.3);
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .team-crest img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .position-cell {
+      font-weight: 800;
+      font-size: 1rem;
+      position: relative;
+      padding-left: 1rem;
+    }
+    .qualification-marker {
+      position: absolute;
+      left: 2px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    .goals-diff {
+      padding: 0.25rem 0.7rem;
+      border-radius: 20px;
+      font-weight: 700;
+      display: inline-block;
+      font-size: 0.85rem;
+    }
+    .positive { background: rgba(1,200,83,0.2); color: #01c853; }
+    .negative { background: rgba(214,1,0,0.2); color: #ff6b6b; }
+    .neutral { background: rgba(255,255,255,0.08); color: #cbd5e1; }
+
+    .fixtures-section {
+      margin: 2rem 0 2.2rem;
+    }
+    .fixtures-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .fixtures-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #afe906;
+    }
+    .matchday-badge {
+      background: #1d2282;
+      color: white;
+      padding: 0.5rem 1.8rem;
+      border-radius: 2rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+    .fixtures-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 1.2rem;
+    }
+    .fixture-card {
+      background: rgba(28,28,36,0.8);
+      padding: 1.2rem 1rem;
+      border-radius: 1.4rem;
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: 0.2s;
+      opacity: 0;
+      animation: fadeUp 0.5s ease-out 0.5s forwards;
+    }
+    .fixture-card:hover {
+      border-color: rgba(175, 233, 6, 0.4);
+      transform: translateY(-2px);
+    }
+    .fixture-teams {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .fixture-team {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      flex: 1;
+    }
+    .fixture-team:first-child {
+      justify-content: flex-end;
+      text-align: right;
+    }
+    .fixture-team:last-child {
+      justify-content: flex-start;
+      text-align: left;
+    }
+    .fixture-vs {
+      font-weight: 800;
+      color: #afe906;
+      margin: 0 0.8rem;
+      font-size: 1rem;
+      min-width: 25px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .fixture-crest {
+      width: 34px;
+      height: 34px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid rgba(175, 233, 6, 0.2);
+      flex-shrink: 0;
+      overflow: hidden;
+    }
+    .fixture-crest img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+    .fixture-status {
+      text-align: center;
+      margin-top: 0.7rem;
+      font-size: 0.75rem;
+      color: #94a3b8;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .season-info {
+      background: rgba(0,0,0,0.4);
+      border-radius: 1.5rem;
+      padding: 2rem;
+      text-align: center;
+      border: 1px solid rgba(175,233,6,0.2);
+      margin-top: 1rem;
+    }
+    .season-info .info-title {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: #afe906;
+      margin-bottom: 0.6rem;
+    }
+    .season-info .info-text {
+      color: #cbd5e1;
+      font-size: 1rem;
+    }
+    .bye-notice {
+      margin-top: 0.8rem;
+      font-size: 0.9rem;
+      color: #94a3b8;
+    }
+
+    /* Scroll hint - subtle gradient fade on edges to indicate scrollability */
+    .table-wrapper::before,
+    .table-wrapper::after {
+      content: '';
+      position: sticky;
+      top: 0;
+      width: 30px;
+      height: 100%;
+      z-index: 5;
+      pointer-events: none;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .table-wrapper::before {
+      left: 0;
+      background: linear-gradient(to right, rgba(10,10,14,0.6), transparent);
+      float: left;
+      margin-right: -30px;
+    }
+    .table-wrapper::after {
+      right: 0;
+      background: linear-gradient(to left, rgba(10,10,14,0.6), transparent);
+      float: right;
+      margin-left: -30px;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-16px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes slideLeft {
+      from { opacity: 0; transform: translateX(-18px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+    @keyframes slideRight {
+      from { opacity: 0; transform: translateX(18px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @media (max-width: 1024px) {
+      .groups-container {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      .standings-table {
+        min-width: 550px;
+        font-size: 0.82rem;
+      }
+      .team-crest {
+        width: 32px;
+        height: 32px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2rem; }
+      body { padding: 0.8rem; }
+      .container { 
+        padding: 1.5rem 0.8rem; 
+        border-radius: 1.8rem;
+      }
+      .container::before {
+        border-radius: 1.8rem 1.8rem 0 0;
+      }
+      .group-card {
+        padding: 1.2rem 0.8rem;
+      }
+      .fixtures-grid {
+        grid-template-columns: 1fr;
+      }
+      .standings-table {
+        min-width: 480px;
+        font-size: 0.75rem;
+      }
+      .standings-table th,
+      .standings-table td {
+        padding: 0.6rem 0.2rem;
+      }
+      .team-cell {
+        gap: 0.4rem;
+      }
+      .team-crest {
+        width: 28px;
+        height: 28px;
+        border-radius: 7px;
+      }
+      .qualification-rules {
+        gap: 1rem;
+        padding: 0.8rem 1.2rem;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="cursor-glow" id="cursorGlow"></div>
-    
-    <div class="container">
-        <header>
-            <h1>Genesis Season 1</h1>
-            <div class="tournament-phase">
-                <span>Group Stage</span>
-                <div class="phase-badge">MATCHDAY 1</div>
-            </div>
-            <p class="subtitle" id="seasonStatus">Top 4 from each group qualify for Playoffs</p>
-            
-            <div class="qualification-rules">
-                <div class="rule-item">
-                    <span class="rule-dot dot-qualify"></span>
-                    <span>Top 4: Qualified for Playoffs</span>
-                </div>
-                <div class="rule-item">
-                    <span class="rule-dot dot-eliminate"></span>
-                    <span>5th-7th: Eliminated</span>
-                </div>
-            </div>
-        </header>
-        
-        <!-- Matchday 1 Fixtures -->
-        <div class="fixtures-section">
-            <div class="fixtures-header">
-                <div class="fixtures-title">⚽ Matchday 1 Fixtures</div>
-                <div class="matchday-badge">UPCOMING</div>
-            </div>
-            
-            <div class="fixtures-grid" id="fixturesGrid">
-                <!-- Group A Fixtures -->
-                <div class="fixture-card">
-                    <div class="fixture-teams">
-                        <div class="fixture-team">
-                            <span class="fixture-team-name">VanGuard FC</span>
-                            <div class="fixture-crest vanguard-crest">
-                                <img class="fixture-crest-img" src="images/vanguard.png" alt="VanGuard" onerror="this.style.display='none'; this.parentNode.innerHTML='VNG'">
-                            </div>
-                        </div>
-                        <div class="fixture-vs">VS</div>
-                        <div class="fixture-team">
-                            <div class="fixture-crest strawhat-crest">
-                                <img class="fixture-crest-img" src="images/strawhat.png" alt="StrawHat" onerror="this.style.display='none'; this.parentNode.innerHTML='SHB'">
-                            </div>
-                            <span class="fixture-team-name">StrawHat Ballers</span>
-                        </div>
-                    </div>
-                    <div class="fixture-status">Group A</div>
-                </div>
-                
-                <div class="fixture-card">
-                    <div class="fixture-teams">
-                        <div class="fixture-team">
-                            <span class="fixture-team-name">Destroyers</span>
-                            <div class="fixture-crest destroyers-crest">
-                                <img class="fixture-crest-img" src="images/destroyers.png" alt="Destroyers" onerror="this.style.display='none'; this.parentNode.innerHTML='DES'">
-                            </div>
-                        </div>
-                        <div class="fixture-vs">VS</div>
-                        <div class="fixture-team">
-                            <div class="fixture-crest blues-crest">
-                                <img class="fixture-crest-img" src="images/blues.png" alt="Blues" onerror="this.style.display='none'; this.parentNode.innerHTML='BLU'">
-                            </div>
-                            <span class="fixture-team-name">The Blues</span>
-                        </div>
-                    </div>
-                    <div class="fixture-status">Group A</div>
-                </div>
-                
-                <div class="fixture-card">
-                    <div class="fixture-teams">
-                        <div class="fixture-team">
-                            <span class="fixture-team-name">SpeedStars</span>
-                            <div class="fixture-crest speedstars-crest">
-                                <img class="fixture-crest-img" src="images/speedstars.png" alt="SpeedStars" onerror="this.style.display='none'; this.parentNode.innerHTML='CSS'">
-                            </div>
-                        </div>
-                        <div class="fixture-vs">VS</div>
-                        <div class="fixture-team">
-                            <div class="fixture-crest haramball-crest">
-                                <img class="fixture-crest-img" src="images/haramball.png" alt="Haramball" onerror="this.style.display='none'; this.parentNode.innerHTML='HBU'">
-                            </div>
-                            <span class="fixture-team-name">Haramball Utd</span>
-                        </div>
-                    </div>
-                    <div class="fixture-status">Group A</div>
-                </div>
-                
-                <!-- Group B Fixtures -->
-                <div class="fixture-card">
-                    <div class="fixture-teams">
-                        <div class="fixture-team">
-                            <span class="fixture-team-name">Vortex Vipers</span>
-                            <div class="fixture-crest vortex-crest">
-                                <img class="fixture-crest-img" src="images/vortex.png" alt="Vortex" onerror="this.style.display='none'; this.parentNode.innerHTML='VOR'">
-                            </div>
-                        </div>
-                        <div class="fixture-vs">VS</div>
-                        <div class="fixture-team">
-                            <div class="fixture-crest vallhala-crest">
-                                <img class="fixture-crest-img" src="images/vallhala.png" alt="Vallhala" onerror="this.style.display='none'; this.parentNode.innerHTML='VAL'">
-                            </div>
-                            <span class="fixture-team-name">Vallhala FC</span>
-                        </div>
-                    </div>
-                    <div class="fixture-status">Group B</div>
-                </div>
-                
-                <div class="fixture-card">
-                    <div class="fixture-teams">
-                        <div class="fixture-team">
-                            <span class="fixture-team-name">Blitz Grandpas</span>
-                            <div class="fixture-crest blitz-crest">
-                                <img class="fixture-crest-img" src="images/blitz.png" alt="Blitz" onerror="this.style.display='none'; this.parentNode.innerHTML='BLZ'">
-                            </div>
-                        </div>
-                        <div class="fixture-vs">VS</div>
-                        <div class="fixture-team">
-                            <div class="fixture-crest egoistic-crest">
-                                <img class="fixture-crest-img" src="images/egoistic.png" alt="Egoistic" onerror="this.style.display='none'; this.parentNode.innerHTML='EKN'">
-                            </div>
-                            <span class="fixture-team-name">Egoistic Knights</span>
-                        </div>
-                    </div>
-                    <div class="fixture-status">Group B</div>
-                </div>
-                
-                <div class="fixture-card">
-                    <div class="fixture-teams">
-                        <div class="fixture-team">
-                            <span class="fixture-team-name">Cortisol FC</span>
-                            <div class="fixture-crest cortisol-crest">
-                                <img class="fixture-crest-img" src="images/cortisol.png" alt="Cortisol" onerror="this.style.display='none'; this.parentNode.innerHTML='COR'">
-                            </div>
-                        </div>
-                        <div class="fixture-vs">VS</div>
-                        <div class="fixture-team">
-                            <div class="fixture-crest spartans-crest">
-                                <img class="fixture-crest-img" src="images/spartans.png" alt="Spartans" onerror="this.style.display='none'; this.parentNode.innerHTML='SPL'">
-                            </div>
-                            <span class="fixture-team-name">Spartans Legion</span>
-                        </div>
-                    </div>
-                    <div class="fixture-status">Group B</div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="groups-container">
-            <!-- Group A -->
-            <div class="group-card group-1">
-                <div class="group-header">
-                    <div class="group-title group-1">Group A</div>
-                    <div class="group-teams-count">7 Teams</div>
-                </div>
-                
-                <div class="table-container">
-                    <table class="standings-table" id="group1Standings">
-                        <thead>
-                            <tr>
-                                <th style="width: 50px;">#</th>
-                                <th style="text-align: left;">Team</th>
-                                <th>P</th>
-                                <th>W</th>
-                                <th>D</th>
-                                <th>L</th>
-                                <th>GF</th>
-                                <th>GA</th>
-                                <th>GD</th>
-                                <th>PTS</th>
-                            </tr>
-                        </thead>
-                        <tbody id="group1Body"></tbody>
-                    </table>
-                </div>
-                
-                <div class="group-info">
-                    <div class="info-item">
-                        <div class="info-value" id="group1Matches">0</div>
-                        <div class="info-label">Matches</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-value" id="group1Goals">0</div>
-                        <div class="info-label">Goals</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-value" id="group1Avg">0.0</div>
-                        <div class="info-label">Avg Goals</div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Group B -->
-            <div class="group-card group-2">
-                <div class="group-header">
-                    <div class="group-title group-2">Group B</div>
-                    <div class="group-teams-count">7 Teams</div>
-                </div>
-                
-                <div class="table-container">
-                    <table class="standings-table" id="group2Standings">
-                        <thead>
-                            <tr>
-                                <th style="width: 50px;">#</th>
-                                <th style="text-align: left;">Team</th>
-                                <th>P</th>
-                                <th>W</th>
-                                <th>D</th>
-                                <th>L</th>
-                                <th>GF</th>
-                                <th>GA</th>
-                                <th>GD</th>
-                                <th>PTS</th>
-                            </tr>
-                        </thead>
-                        <tbody id="group2Body"></tbody>
-                    </table>
-                </div>
-                
-                <div class="group-info">
-                    <div class="info-item">
-                        <div class="info-value" id="group2Matches">0</div>
-                        <div class="info-label">Matches</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-value" id="group2Goals">0</div>
-                        <div class="info-label">Goals</div>
-                    </div>
-                    <div class="info-item">
-                        <div class="info-value" id="group2Avg">0.0</div>
-                        <div class="info-label">Avg Goals</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="season-info">
-            <div class="section-title" style="margin-bottom: 15px; font-size: 24px; font-weight: 700; color: #FFD700;">📋 Season Status</div>
-            <div class="season-status-text">
-                Matchday 1 fixtures are set! PXG (Group A) and Remontada FC (Group B) have a bye this matchday.
-            </div>
-        </div>
+  <div class="cursor-glow" id="cursorGlow"></div>
+
+  <div class="container">
+    <header>
+      <h1>BIFA WORLD CUP</h1>
+      <div class="tournament-phase">
+        <span>Season 1 · Group Stage</span>
+        <div class="phase-badge">MATCHDAY 1</div>
+      </div>
+      <p style="color: #cbd5e1; margin-top: 0.5rem; font-size: 1.05rem;">Top 4 from each group advance to Playoffs</p>
+      <div class="qualification-rules">
+        <div class="rule-item"><span class="rule-dot dot-qualify"></span> Top 4 qualify</div>
+        <div class="rule-item"><span class="rule-dot dot-eliminate"></span> 5th–10th eliminated</div>
+      </div>
+    </header>
+
+    <!-- Matchday 1 Fixtures -->
+    <div class="fixtures-section">
+      <div class="fixtures-header">
+        <div class="fixtures-title">⚽ Matchday 1 Fixtures</div>
+        <div class="matchday-badge">UPCOMING</div>
+      </div>
+      <div class="fixtures-grid" id="fixturesGrid"></div>
     </div>
 
-    <script>
-        const cursorGlow = document.getElementById('cursorGlow');
-        
-        document.addEventListener('mousemove', (e) => {
-            cursorGlow.style.left = e.clientX + 'px';
-            cursorGlow.style.top = e.clientY + 'px';
-        });
-        
-        document.addEventListener('mouseleave', () => {
-            cursorGlow.style.opacity = '0';
-        });
-        
-        document.addEventListener('mouseenter', () => {
-            cursorGlow.style.opacity = '1';
-        });
-    </script>
+    <!-- Groups -->
+    <div class="groups-container">
+      <!-- Group A -->
+      <div class="group-card group-a">
+        <div class="group-header">
+          <div class="group-title"><span class="group-badge">A</span> Group A</div>
+          <div style="color:#94a3b8; font-weight:600;">10 teams</div>
+        </div>
+        <div class="table-wrapper">
+          <table class="standings-table" id="group1Table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Team</th>
+                <th>P</th><th>W</th><th>D</th><th>L</th>
+                <th>GF</th><th>GA</th><th>GD</th><th>PTS</th>
+              </tr>
+            </thead>
+            <tbody id="group1Body"></tbody>
+          </table>
+        </div>
+      </div>
 
-    <script>
-        const teams = {
-            "DES": { name: "Destroyers", shortName: "Destroyers", crestClass: "destroyers-crest", imageUrl: "images/destroyers.png", fallbackText: "DES", group: 1 },
-            "PXG": { name: "PXG", shortName: "PXG", crestClass: "pxg-crest", imageUrl: "images/pxg.png", fallbackText: "PXG", group: 1 },
-            "VAN": { name: "VanGuard FC", shortName: "VanGuard", crestClass: "vanguard-crest", imageUrl: "images/vanguard.png", fallbackText: "VNG", group: 1 },
-            "HAR": { name: "Haramball United", shortName: "Haramball Utd", crestClass: "haramball-crest", imageUrl: "images/haramball.png", fallbackText: "HBU", group: 1 },
-            "STW": { name: "StrawHat Ballers", shortName: "StrawHat", crestClass: "strawhat-crest", imageUrl: "images/strawhat.png", fallbackText: "SHB", group: 1 },
-            "BLU": { name: "The Blues", shortName: "The Blues", crestClass: "blues-crest", imageUrl: "images/blues.png", fallbackText: "BLU", group: 1 },
-            "CSS": { name: "Central City SpeedStars", shortName: "SpeedStars", crestClass: "speedstars-crest", imageUrl: "images/speedstars.png", fallbackText: "CSS", group: 1 },
-            "BLZ": { name: "Blitz Grandpas", shortName: "Blitz G.", crestClass: "blitz-crest", imageUrl: "images/blitz.png", fallbackText: "BLZ", group: 2 },
-            "COR": { name: "Cortisol FC", shortName: "Cortisol", crestClass: "cortisol-crest", imageUrl: "images/cortisol.png", fallbackText: "COR", group: 2 },
-            "EGO": { name: "Egoistic Knights FC", shortName: "Egoistic K.", crestClass: "egoistic-crest", imageUrl: "images/egoistic.png", fallbackText: "EKN", group: 2 },
-            "REM": { name: "Remontada FC", shortName: "Remontada", crestClass: "remontada-crest", imageUrl: "images/remontada.png", fallbackText: "REM", group: 2 },
-            "SPA": { name: "Spartans Legion", shortName: "Spartans", crestClass: "spartans-crest", imageUrl: "images/spartans.png", fallbackText: "SPL", group: 2 },
-            "VAL": { name: "Vallhala FC", shortName: "Vallhala", crestClass: "vallhala-crest", imageUrl: "images/vallhala.png", fallbackText: "VAL", group: 2 },
-            "VOR": { name: "Vortex Vipers", shortName: "Vortex V.", crestClass: "vortex-crest", imageUrl: "images/vortex.png", fallbackText: "VOR", group: 2 }
+      <!-- Group B -->
+      <div class="group-card group-b">
+        <div class="group-header">
+          <div class="group-title"><span class="group-badge">B</span> Group B</div>
+          <div style="color:#94a3b8; font-weight:600;">10 teams</div>
+        </div>
+        <div class="table-wrapper">
+          <table class="standings-table" id="group2Table">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Team</th>
+                <th>P</th><th>W</th><th>D</th><th>L</th>
+                <th>GF</th><th>GA</th><th>GD</th><th>PTS</th>
+              </tr>
+            </thead>
+            <tbody id="group2Body"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="season-info">
+      <div class="info-title">🌍 BIFA World Cup · Season 1</div>
+      <div class="info-text">20 nations. 2 groups. Only the top 4 from each group survive.</div>
+      <div class="bye-notice" id="byeNotice"></div>
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // ----- Cursor glow effect -----
+      const cursorGlow = document.getElementById('cursorGlow');
+      document.addEventListener('mousemove', (e) => {
+        cursorGlow.style.left = e.clientX + 'px';
+        cursorGlow.style.top = e.clientY + 'px';
+      });
+      document.addEventListener('mouseleave', () => { cursorGlow.style.opacity = '0'; });
+      document.addEventListener('mouseenter', () => { cursorGlow.style.opacity = '1'; });
+
+      // Add scroll hint shadows to all table wrappers
+      document.querySelectorAll('.table-wrapper').forEach(wrapper => {
+        const updateScrollShadows = () => {
+          const hasScroll = wrapper.scrollWidth > wrapper.clientWidth;
+          const atStart = wrapper.scrollLeft <= 2;
+          const atEnd = wrapper.scrollLeft + wrapper.clientWidth >= wrapper.scrollWidth - 2;
+          
+          if (!hasScroll) {
+            wrapper.style.setProperty('--show-left', '0');
+            wrapper.style.setProperty('--show-right', '0');
+          } else {
+            wrapper.style.setProperty('--show-left', atStart ? '0' : '1');
+            wrapper.style.setProperty('--show-right', atEnd ? '0' : '1');
+          }
         };
+        
+        wrapper.addEventListener('scroll', updateScrollShadows);
+        window.addEventListener('resize', updateScrollShadows);
+        updateScrollShadows();
+      });
 
-        let standingsData = {
-            group1: [
-                { team: "DES", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
-                { team: "PXG", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
-                { team: "VAN", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
-                { team: "HAR", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
-                { team: "STW", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
-                { team: "BLU", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
-                { team: "CSS", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 }
-            ],
-            group2: [
-                { team: "BLZ", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
-                { team: "COR", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
-                { team: "EGO", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
-                { team: "REM", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
-                { team: "SPA", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
-                { team: "VAL", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 },
-                { team: "VOR", played: 0, won: 0, drawn: 0, lost: 0, goalsFor: 0, goalsAgainst: 0, points: 0 }
-            ]
-        };
+      // ----- ISO CODES FOR FLAG CDN -----
+      const isoCodes = {
+        "France": "fr",
+        "Spain": "es",
+        "Argentina": "ar",
+        "England": "gb-eng",
+        "Portugal": "pt",
+        "Brazil": "br",
+        "Netherlands": "nl",
+        "Morocco": "ma",
+        "Belgium": "be",
+        "Germany": "de",
+        "Croatia": "hr",
+        "Colombia": "co",
+        "Senegal": "sn",
+        "Mexico": "mx",
+        "USA": "us",
+        "Uruguay": "uy",
+        "Japan": "jp",
+        "Switzerland": "ch",
+        "Turkey": "tr",
+        "South Korea": "kr"
+      };
 
-        function renderGroup(groupNum, groupData, elementId) {
-            const groupBody = document.getElementById(elementId);
-            groupBody.innerHTML = '';
-            
-            const sortedGroup = [...groupData].sort((a, b) => {
-                if (b.points !== a.points) return b.points - a.points;
-                if ((b.goalsFor - b.goalsAgainst) !== (a.goalsFor - a.goalsAgainst)) 
-                    return (b.goalsFor - b.goalsAgainst) - (a.goalsFor - a.goalsAgainst);
-                return b.goalsFor - a.goalsFor;
-            });
-            
-            sortedGroup.forEach((teamData, index) => {
-                const team = teams[teamData.team];
-                const row = document.createElement('tr');
-                const markerClass = index < 4 ? 'qualifies' : 'eliminated';
-                const goalsDiff = teamData.goalsFor - teamData.goalsAgainst;
-                let goalsDiffClass = 'neutral';
-                if (goalsDiff > 0) goalsDiffClass = 'positive';
-                else if (goalsDiff < 0) goalsDiffClass = 'negative';
-                const goalsDiffFormatted = goalsDiff > 0 ? `+${goalsDiff}` : goalsDiff;
-                
-                row.innerHTML = `
-                    <td class="position-cell">
-                        <div class="qualification-marker ${markerClass}"></div>
-                        ${index + 1}
-                    </td>
-                    <td class="team-cell">
-                        <div class="team-crest ${team.crestClass}">
-                            <img class="team-img" src="${team.imageUrl}" alt="${team.name}" loading="lazy" 
-                                 onerror="this.style.display='none'; this.parentNode.innerHTML='${team.fallbackText}'; this.parentNode.style.fontSize='14px'; this.parentNode.style.fontWeight='800';">
-                        </div>
-                        ${team.name}
-                    </td>
-                    <td>${teamData.played}</td>
-                    <td>${teamData.won}</td>
-                    <td>${teamData.drawn}</td>
-                    <td>${teamData.lost}</td>
-                    <td>${teamData.goalsFor}</td>
-                    <td>${teamData.goalsAgainst}</td>
-                    <td><span class="goals-diff ${goalsDiffClass}">${goalsDiffFormatted}</span></td>
-                    <td class="points-cell">${teamData.points}</td>
-                `;
-                groupBody.appendChild(row);
-            });
+      const shortCodes = {
+        "France":"FRA","Spain":"ESP","Argentina":"ARG","England":"ENG","Portugal":"POR",
+        "Brazil":"BRA","Netherlands":"NED","Morocco":"MAR","Belgium":"BEL","Germany":"GER",
+        "Croatia":"CRO","Colombia":"COL","Senegal":"SEN","Mexico":"MEX","USA":"USA",
+        "Uruguay":"URU","Japan":"JPN","Switzerland":"SUI","Turkey":"TUR","South Korea":"KOR"
+      };
+
+      function getFlagUrl(teamName) {
+        const iso = isoCodes[teamName] || "xx";
+        return `https://flagcdn.com/w80/${iso}.png`;
+      }
+
+      function getShortCode(teamName) {
+        return shortCodes[teamName] || teamName.substring(0,3).toUpperCase();
+      }
+
+      // ----- ALL 20 TEAMS -----
+      const allTeams = [
+        "France","Spain","Argentina","England","Portugal","Brazil","Netherlands","Morocco",
+        "Belgium","Germany","Croatia","Colombia","Senegal","Mexico","USA","Uruguay",
+        "Japan","Switzerland","Turkey","South Korea"
+      ];
+
+      // ----- RANDOM SHUFFLE & GROUP SPLIT -----
+      function shuffleArray(arr) {
+        for (let i = arr.length - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [arr[i], arr[j]] = [arr[j], arr[i]];
+        }
+        return arr;
+      }
+
+      const shuffled = shuffleArray([...allTeams]);
+      const group1Teams = shuffled.slice(0, 10);
+      const group2Teams = shuffled.slice(10, 20);
+
+      // ----- STANDINGS DATA -----
+      const standings = {
+        group1: group1Teams.map(t => ({ 
+          team: t, played:0, won:0, drawn:0, lost:0, 
+          goalsFor:0, goalsAgainst:0, points:0 
+        })),
+        group2: group2Teams.map(t => ({ 
+          team: t, played:0, won:0, drawn:0, lost:0, 
+          goalsFor:0, goalsAgainst:0, points:0 
+        }))
+      };
+
+      // ----- RENDER STANDINGS TABLE -----
+      function renderStandings(groupData, tbodyId) {
+        const tbody = document.getElementById(tbodyId);
+        if (!tbody) return;
+
+        const sorted = [...groupData].sort((a, b) => {
+          if (b.points !== a.points) return b.points - a.points;
+          const gdA = a.goalsFor - a.goalsAgainst;
+          const gdB = b.goalsFor - b.goalsAgainst;
+          if (gdB !== gdA) return gdB - gdA;
+          return b.goalsFor - a.goalsFor;
+        });
+
+        tbody.innerHTML = sorted.map((t, idx) => {
+          const gd = t.goalsFor - t.goalsAgainst;
+          const gdClass = gd > 0 ? 'positive' : (gd < 0 ? 'negative' : 'neutral');
+          const gdFormatted = gd > 0 ? `+${gd}` : gd;
+          const markerClass = idx < 4 ? 'qualifies' : 'eliminated';
+          const flagUrl = getFlagUrl(t.team);
+          const short = getShortCode(t.team);
+
+          return `
+            <tr>
+              <td class="position-cell">
+                <span class="qualification-marker ${markerClass}" 
+                      style="background:${markerClass==='qualifies'?'#01c853':'#d60100'}; box-shadow: 0 0 8px ${markerClass==='qualifies'?'#01c853':'#d60100'};">
+                </span>
+                ${idx + 1}
+              </td>
+              <td class="team-cell">
+                <div class="team-crest" title="${t.team}">
+                  <img src="${flagUrl}" alt="${t.team} flag" loading="lazy" 
+                       onerror="this.style.display='none'; this.parentNode.innerHTML='<span style=font-weight:800;font-size:0.8rem;color:#afe906>${short}</span>'">
+                </div>
+                <span>${t.team}</span>
+              </td>
+              <td>${t.played}</td>
+              <td>${t.won}</td>
+              <td>${t.drawn}</td>
+              <td>${t.lost}</td>
+              <td>${t.goalsFor}</td>
+              <td>${t.goalsAgainst}</td>
+              <td><span class="goals-diff ${gdClass}">${gdFormatted}</span></td>
+              <td style="font-weight:800; color:#afe906; font-size:1rem;">${t.points}</td>
+            </tr>
+          `;
+        }).join('');
+      }
+
+      function updateAllStandings() {
+        renderStandings(standings.group1, 'group1Body');
+        renderStandings(standings.group2, 'group2Body');
+      }
+
+      // ----- GENERATE MATCHDAY 1 FIXTURES -----
+      function generateMatchday1Fixtures() {
+        const fixtures = [];
+
+        const g1Shuffled = shuffleArray([...group1Teams]);
+        const g1Playing = g1Shuffled.slice(0, 8);
+        const g1Bye = g1Shuffled.slice(8, 10);
+        for (let i = 0; i < g1Playing.length; i += 2) {
+          fixtures.push({ home: g1Playing[i], away: g1Playing[i+1], group: 'A' });
         }
 
-        function calculateGroupStats() {
-            const g1m = standingsData.group1.reduce((s, t) => s + t.played, 0) / 2;
-            const g1g = standingsData.group1.reduce((s, t) => s + t.goalsFor, 0);
-            const g2m = standingsData.group2.reduce((s, t) => s + t.played, 0) / 2;
-            const g2g = standingsData.group2.reduce((s, t) => s + t.goalsFor, 0);
-            
-            document.getElementById('group1Matches').textContent = g1m;
-            document.getElementById('group1Goals').textContent = g1g;
-            document.getElementById('group1Avg').textContent = g1m > 0 ? (g1g / g1m).toFixed(1) : "0.0";
-            document.getElementById('group2Matches').textContent = g2m;
-            document.getElementById('group2Goals').textContent = g2g;
-            document.getElementById('group2Avg').textContent = g2m > 0 ? (g2g / g2m).toFixed(1) : "0.0";
+        const g2Shuffled = shuffleArray([...group2Teams]);
+        const g2Playing = g2Shuffled.slice(0, 8);
+        const g2Bye = g2Shuffled.slice(8, 10);
+        for (let i = 0; i < g2Playing.length; i += 2) {
+          fixtures.push({ home: g2Playing[i], away: g2Playing[i+1], group: 'B' });
         }
 
-        function updateDisplay() {
-            renderGroup(1, standingsData.group1, 'group1Body');
-            renderGroup(2, standingsData.group2, 'group2Body');
-            calculateGroupStats();
-        }
+        return { fixtures, byeTeams: [...g1Bye, ...g2Bye] };
+      }
 
-        function updateMatchResults(results) {
-            results.forEach(r => {
-                const hg = teams[r.home].group === 1 ? standingsData.group1 : standingsData.group2;
-                const ag = teams[r.away].group === 1 ? standingsData.group1 : standingsData.group2;
-                const ht = hg.find(t => t.team === r.home);
-                const at = ag.find(t => t.team === r.away);
-                if (ht && at) {
-                    ht.played++; at.played++;
-                    ht.goalsFor += r.homeScore; ht.goalsAgainst += r.awayScore;
-                    at.goalsFor += r.awayScore; at.goalsAgainst += r.homeScore;
-                    if (r.homeScore > r.awayScore) { ht.won++; at.lost++; ht.points += 3; }
-                    else if (r.homeScore < r.awayScore) { at.won++; ht.lost++; at.points += 3; }
-                    else { ht.drawn++; at.drawn++; ht.points++; at.points++; }
-                }
-            });
-            updateDisplay();
-        }
+      const { fixtures, byeTeams } = generateMatchday1Fixtures();
 
-        document.addEventListener('DOMContentLoaded', updateDisplay);
-    </script>
+      // ----- RENDER FIXTURES -----
+      function renderFixtures() {
+        const grid = document.getElementById('fixturesGrid');
+        if (!grid) return;
+
+        grid.innerHTML = fixtures.map(f => {
+          const homeFlagUrl = getFlagUrl(f.home);
+          const awayFlagUrl = getFlagUrl(f.away);
+          const homeShort = getShortCode(f.home);
+          const awayShort = getShortCode(f.away);
+
+          return `
+            <div class="fixture-card">
+              <div class="fixture-teams">
+                <div class="fixture-team">
+                  <span>${f.home}</span>
+                  <div class="fixture-crest" title="${f.home}">
+                    <img src="${homeFlagUrl}" alt="${f.home} flag" loading="lazy"
+                         onerror="this.style.display='none'; this.parentNode.innerHTML='<span style=font-weight:700;font-size:0.7rem;color:#afe906>${homeShort}</span>'">
+                  </div>
+                </div>
+                <div class="fixture-vs">VS</div>
+                <div class="fixture-team">
+                  <div class="fixture-crest" title="${f.away}">
+                    <img src="${awayFlagUrl}" alt="${f.away} flag" loading="lazy"
+                         onerror="this.style.display='none'; this.parentNode.innerHTML='<span style=font-weight:700;font-size:0.7rem;color:#afe906>${awayShort}</span>'">
+                  </div>
+                  <span>${f.away}</span>
+                </div>
+              </div>
+              <div class="fixture-status">Group ${f.group}</div>
+            </div>
+          `;
+        }).join('');
+
+        const byeNotice = document.getElementById('byeNotice');
+        if (byeNotice && byeTeams.length > 0) {
+          byeNotice.textContent = `Bye this matchday: ${byeTeams.join(', ')}`;
+        }
+      }
+
+      // ----- INITIAL RENDER -----
+      updateAllStandings();
+      renderFixtures();
+
+      // ----- PUBLIC API -----
+      window.updateBIFAResults = function(resultsArray) {
+        resultsArray.forEach(r => {
+          const group = r.group === 'A' ? standings.group1 : standings.group2;
+          const homeTeam = group.find(t => t.team === r.home);
+          const awayTeam = group.find(t => t.team === r.away);
+          if (!homeTeam || !awayTeam) return;
+
+          homeTeam.played++;
+          awayTeam.played++;
+          homeTeam.goalsFor += r.homeGoals;
+          homeTeam.goalsAgainst += r.awayGoals;
+          awayTeam.goalsFor += r.awayGoals;
+          awayTeam.goalsAgainst += r.homeGoals;
+
+          if (r.homeGoals > r.awayGoals) {
+            homeTeam.won++;
+            awayTeam.lost++;
+            homeTeam.points += 3;
+          } else if (r.homeGoals < r.awayGoals) {
+            awayTeam.won++;
+            homeTeam.lost++;
+            awayTeam.points += 3;
+          } else {
+            homeTeam.drawn++;
+            awayTeam.drawn++;
+            homeTeam.points++;
+            awayTeam.points++;
+          }
+        });
+        updateAllStandings();
+      };
+
+      console.log('BIFA World Cup Season 1 ready!');
+    })();
+  </script>
 </body>
 </html>
