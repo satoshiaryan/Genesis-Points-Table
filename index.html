@@ -1,916 +1,855 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>BIFA World Cup • Season 1 | Group Stage</title>
-  <style>
-    :root {
-      --bifa-red-dark: #741311;
-      --bifa-red: #d60100;
-      --bifa-green-dark: #004c40;
-      --bifa-green: #01c853;
-      --bifa-lime: #afe906;
-      --bifa-blue-dark: #1d2282;
-      --bifa-blue: #3051f5;
-      --bg-deep: #0a0a0c;
-      --surface: #14141a;
-      --card: #1c1c24;
-      --text-primary: #ffffff;
-      --text-secondary: #cbd5e1;
-      --text-muted: #94a3b8;
-      --qualify: #01c853;
-      --eliminate: #d60100;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>BIFA World Cup 2026™ | Group Stage</title>
+    <style>
+        :root {
+            --gold: #c9a84c;
+            --gold-bright: #e2c97e;
+            --gold-dark: #8b6914;
+            --navy: #060b18;
+            --navy-light: #0d1529;
+            --navy-card: #111b33;
+            --red: #c41230;
+            --red-dark: #8b0f24;
+            --blue: #1a3f8a;
+            --green: #0f5c2e;
+            --green-bright: #22c55e;
+            --white: #ffffff;
+            --gray-100: #f1f5f9;
+            --gray-300: #cbd5e1;
+            --gray-500: #6b7280;
+            --gray-700: #374151;
+            --qualify: #22c55e;
+            --eliminate: #ef4444;
+            --border-gold: rgba(201, 168, 76, 0.3);
+        }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-      background: radial-gradient(circle at 30% 10%, rgba(214, 1, 0, 0.08) 0%, transparent 45%),
-                  radial-gradient(circle at 80% 70%, rgba(1, 200, 83, 0.07) 0%, transparent 50%),
-                  radial-gradient(circle at 10% 85%, #1d2282 0%, transparent 55%),
-                  var(--bg-deep);
-      color: var(--text-primary);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding: 2rem 1.5rem;
-      line-height: 1.5;
-      position: relative;
-      overflow-x: hidden;
-    }
+        body {
+            font-family: 'Poppins', 'Inter', system-ui, sans-serif;
+            background: var(--navy);
+            color: var(--white);
+            min-height: 100vh;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
 
-    .cursor-glow {
-      width: 380px;
-      height: 380px;
-      background: radial-gradient(circle, rgba(175, 233, 6, 0.08) 0%, rgba(48, 81, 245, 0.05) 40%, transparent 75%);
-      border-radius: 50%;
-      position: fixed;
-      pointer-events: none;
-      z-index: 9998;
-      transform: translate(-50%, -50%);
-      transition: opacity 0.25s;
-    }
+        /* ============================================
+           GLOBAL BACKGROUND ATMOSPHERE
+           ============================================ */
+        .global-bg {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 0;
+        }
+        .global-bg::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 60% at 50% 0%, rgba(201,168,76,0.07) 0%, transparent 60%),
+                radial-gradient(ellipse 40% 50% at 15% 70%, rgba(26,63,138,0.06) 0%, transparent 50%),
+                radial-gradient(ellipse 40% 50% at 85% 30%, rgba(196,18,48,0.05) 0%, transparent 50%),
+                radial-gradient(ellipse 60% 40% at 50% 100%, rgba(15,92,46,0.04) 0%, transparent 50%);
+        }
+        .global-bg::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background-image:
+                repeating-linear-gradient(0deg, transparent, transparent 40px, rgba(201,168,76,0.015) 40px, rgba(201,168,76,0.015) 41px),
+                repeating-linear-gradient(90deg, transparent, transparent 40px, rgba(201,168,76,0.01) 40px, rgba(201,168,76,0.01) 41px);
+        }
 
-    .container {
-      width: 1280px;
-      max-width: 100%;
-      background: rgba(20, 20, 28, 0.9);
-      backdrop-filter: blur(14px);
-      border-radius: 2.5rem;
-      box-shadow: 0 25px 50px -10px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(175, 233, 6, 0.15);
-      padding: 2.5rem 2.2rem;
-      margin-bottom: 2.5rem;
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      position: relative;
-      z-index: 2;
-      overflow: hidden;
-    }
+        /* ============================================
+           TOP NAVIGATION BAR (FIFA STYLE)
+           ============================================ */
+        .top-nav {
+            position: relative;
+            z-index: 10;
+            background: rgba(6, 11, 24, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+        }
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-weight: 800;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            color: var(--gold-bright);
+            text-transform: uppercase;
+        }
+        .nav-brand-icon {
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--gray-500);
+        }
+        .nav-links li.active {
+            color: var(--gold-bright);
+            position: relative;
+        }
+        .nav-links li.active::after {
+            content: '';
+            position: absolute;
+            bottom: -18px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--gold);
+            border-radius: 2px 2px 0 0;
+        }
 
-    .container::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 6px;
-      background: linear-gradient(90deg, #741311, #d60100, #004c40, #01c853, #afe906, #1d2282, #3051f5);
-      border-radius: 2.5rem 2.5rem 0 0;
-    }
+        /* ============================================
+           HERO BANNER
+           ============================================ */
+        .hero-banner {
+            position: relative;
+            z-index: 2;
+            background: linear-gradient(180deg, rgba(13,21,41,0.9) 0%, rgba(17,27,51,0.95) 100%);
+            padding: 4rem 2rem 3rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-gold);
+            overflow: hidden;
+        }
+        .hero-banner::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(201,168,76,0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-banner-inner {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .hero-trophy-emoji {
+            font-size: 5rem;
+            display: block;
+            margin-bottom: 0.5rem;
+            filter: drop-shadow(0 10px 30px rgba(201,168,76,0.5));
+            animation: heroFloat 4s ease-in-out infinite;
+        }
+        @keyframes heroFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-14px); }
+        }
+        .hero-eyebrow {
+            font-size: 0.85rem;
+            font-weight: 700;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            color: var(--gold-bright);
+            margin-bottom: 0.5rem;
+        }
+        .hero-title {
+            font-size: 4.5rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(180deg, #fdf3d0 0%, #d4af37 30%, #8b6914 60%, #d4af37 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.5));
+        }
+        .hero-season {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--gray-300);
+            letter-spacing: 3px;
+            margin-bottom: 1.5rem;
+        }
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+        .hero-stat {
+            text-align: center;
+        }
+        .hero-stat-value {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--gold-bright);
+            line-height: 1;
+        }
+        .hero-stat-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gray-500);
+            margin-top: 0.3rem;
+        }
 
-    header {
-      text-align: center;
-      margin-bottom: 2.8rem;
-      padding-bottom: 1.5rem;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      opacity: 0;
-      animation: fadeDown 0.65s ease-out forwards;
-    }
+        /* ============================================
+           MAIN CONTENT
+           ============================================ */
+        .main-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
 
-    h1 {
-      font-size: 3.4rem;
-      font-weight: 750;
-      letter-spacing: -0.5px;
-      background: linear-gradient(135deg, #d60100, #afe906, #3051f5, #01c853);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      margin-bottom: 0.4rem;
-    }
+        /* Section title */
+        .section-header {
+            text-align: center;
+            margin: 3rem 0 2rem;
+        }
+        .section-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold-bright);
+            margin-bottom: 0.5rem;
+        }
+        .section-title {
+            font-size: 2rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--white);
+            position: relative;
+            display: inline-block;
+        }
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--gold);
+            margin: 0.8rem auto 0;
+            border-radius: 2px;
+        }
 
-    .tournament-phase {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1.2rem;
-      font-size: 1.3rem;
-      font-weight: 600;
-      color: var(--text-secondary);
-      margin: 0.8rem 0;
-      flex-wrap: wrap;
-    }
+        /* ============================================
+           FIXTURES - HORIZONTAL CARD STRIP
+           ============================================ */
+        .fixtures-strip {
+            display: flex;
+            gap: 1.2rem;
+            overflow-x: auto;
+            padding: 0.5rem 0 1.5rem;
+            scrollbar-width: thin;
+            scrollbar-color: var(--gold-dark) transparent;
+            -ms-overflow-style: none;
+            flex-wrap: nowrap;
+            justify-content: flex-start;
+        }
+        .fixtures-strip::-webkit-scrollbar {
+            height: 4px;
+        }
+        .fixtures-strip::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .fixtures-strip::-webkit-scrollbar-thumb {
+            background: var(--gold-dark);
+            border-radius: 4px;
+        }
+        .match-card {
+            background: var(--navy-card);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 1rem;
+            padding: 1.2rem 1.5rem;
+            min-width: 300px;
+            flex-shrink: 0;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .match-card:hover {
+            border-color: var(--border-gold);
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.5);
+        }
+        .match-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--gold);
+            border-radius: 4px 0 0 4px;
+        }
+        .match-card-group {
+            font-size: 0.65rem;
+            font-weight: 700;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold-bright);
+            margin-bottom: 0.8rem;
+        }
+        .match-card-teams {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .match-card-team {
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            flex: 1;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        .match-card-team:first-child {
+            justify-content: flex-end;
+            text-align: right;
+        }
+        .match-card-flag {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid rgba(255,255,255,0.1);
+            flex-shrink: 0;
+            background: rgba(255,255,255,0.03);
+        }
+        .match-card-flag img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .match-card-vs {
+            font-weight: 900;
+            font-size: 0.85rem;
+            color: var(--gold);
+            background: rgba(201,168,76,0.1);
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border: 1px solid rgba(201,168,76,0.3);
+        }
+        .match-card-status {
+            text-align: center;
+            margin-top: 0.7rem;
+            font-size: 0.65rem;
+            letter-spacing: 2px;
+            color: var(--gray-500);
+            text-transform: uppercase;
+        }
 
-    .phase-badge {
-      background: linear-gradient(120deg, #004c40, #01c853);
-      color: #ffffff;
-      padding: 0.4rem 1.8rem;
-      border-radius: 3rem;
-      font-size: 0.9rem;
-      font-weight: 700;
-      letter-spacing: 0.7px;
-      box-shadow: 0 6px 18px rgba(1, 200, 83, 0.3);
-    }
+        /* ============================================
+           STANDINGS - TWO COLUMN GRID
+           ============================================ */
+        .standings-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+        .standings-panel {
+            background: var(--navy-card);
+            border-radius: 1rem;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.06);
+            opacity: 0;
+        }
+        .standings-panel.panel-a {
+            border-top: 5px solid var(--red);
+            animation: panelSlideUp 0.7s ease-out 0.1s forwards;
+        }
+        .standings-panel.panel-b {
+            border-top: 5px solid var(--blue);
+            animation: panelSlideUp 0.7s ease-out 0.25s forwards;
+        }
+        @keyframes panelSlideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .panel-head {
+            padding: 1.2rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(0,0,0,0.3);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .panel-head-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+        .panel-head-letter {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1rem;
+            color: white;
+        }
+        .panel-a .panel-head-letter { background: var(--red); box-shadow: 0 0 20px rgba(196,18,48,0.5); }
+        .panel-b .panel-head-letter { background: var(--blue); box-shadow: 0 0 20px rgba(26,63,138,0.5); }
+        .panel-head-meta {
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+        .panel-table-wrap {
+            overflow-x: auto;
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+        .panel-table-wrap::-webkit-scrollbar { display: none; }
+        .panel-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 620px;
+        }
+        .panel-table thead th {
+            padding: 0.9rem 0.5rem;
+            text-align: center;
+            font-weight: 700;
+            font-size: 0.65rem;
+            letter-spacing: 1.5px;
+            color: var(--gold-bright);
+            background: rgba(0,0,0,0.4);
+            border-bottom: 2px solid var(--border-gold);
+            text-transform: uppercase;
+        }
+        .panel-table thead th:nth-child(2) { text-align: left; padding-left: 1.5rem; }
+        .panel-table tbody td {
+            padding: 0.85rem 0.5rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.02);
+            font-size: 0.88rem;
+            color: #e2e8f0;
+        }
+        .panel-table tbody tr { transition: background 0.2s; }
+        .panel-table tbody tr:hover { background: rgba(201,168,76,0.03); }
+        .panel-table tbody tr.row-qualified { background: rgba(34,197,94,0.02); }
+        .team-name-cell {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-weight: 600;
+            color: #f1f5f9;
+            padding-left: 0.5rem;
+        }
+        .mini-flag {
+            width: 34px;
+            height: 34px;
+            border-radius: 7px;
+            overflow: hidden;
+            border: 2px solid rgba(201,168,76,0.25);
+            flex-shrink: 0;
+            background: rgba(255,255,255,0.03);
+        }
+        .mini-flag img { width: 100%; height: 100%; object-fit: cover; }
+        .pos-number {
+            font-weight: 800;
+            font-size: 1rem;
+            position: relative;
+            padding-left: 1rem;
+        }
+        .pos-indicator {
+            position: absolute;
+            left: 2px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        .gd-chip {
+            padding: 0.2rem 0.6rem;
+            border-radius: 1rem;
+            font-weight: 700;
+            font-size: 0.8rem;
+            display: inline-block;
+        }
+        .gd-chip.up { background: rgba(34,197,94,0.15); color: #4ade80; border: 1px solid rgba(34,197,94,0.3); }
+        .gd-chip.down { background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
+        .gd-chip.even { background: rgba(255,255,255,0.04); color: #9ca3af; border: 1px solid rgba(255,255,255,0.08); }
+        .pts-emphasis {
+            font-weight: 800;
+            font-size: 1rem;
+            color: var(--gold-bright);
+            background: rgba(201,168,76,0.08);
+            padding: 0.2rem 0.6rem;
+            border-radius: 5px;
+            display: inline-block;
+        }
 
-    .qualification-rules {
-      background: rgba(255, 255, 255, 0.03);
-      padding: 1rem 2rem;
-      border-radius: 2.5rem;
-      border: 1px solid rgba(175, 233, 6, 0.2);
-      display: inline-flex;
-      gap: 2.5rem;
-      margin-top: 1.4rem;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
+        /* ============================================
+           BOTTOM INFO BAR
+           ============================================ */
+        .info-bar {
+            background: var(--navy-card);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 1rem;
+            padding: 1.5rem 2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        .info-bar p {
+            color: var(--gray-300);
+            font-size: 0.95rem;
+        }
+        .info-bar strong {
+            color: var(--gold-bright);
+        }
+        .info-bar .bye-text {
+            margin-top: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--gray-500);
+            font-style: italic;
+        }
 
-    .rule-item {
-      display: flex;
-      align-items: center;
-      gap: 0.6rem;
-      font-weight: 500;
-      color: var(--text-secondary);
-    }
+        /* ============================================
+           FOOTER
+           ============================================ */
+        .site-footer {
+            position: relative;
+            z-index: 2;
+            background: rgba(6,11,24,0.9);
+            border-top: 1px solid rgba(255,255,255,0.05);
+            text-align: center;
+            padding: 1.5rem;
+            font-size: 0.75rem;
+            color: var(--gray-500);
+            letter-spacing: 1px;
+        }
 
-    .rule-dot {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-    }
-    .dot-qualify { background: #01c853; box-shadow: 0 0 10px #01c853; }
-    .dot-eliminate { background: #d60100; box-shadow: 0 0 10px #d60100; }
-
-    .groups-container {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 2rem;
-      margin: 2.8rem 0 2.5rem;
-    }
-
-    .group-card {
-      background: rgba(28, 28, 36, 0.8);
-      backdrop-filter: blur(8px);
-      border-radius: 2rem;
-      padding: 1.8rem 1.5rem;
-      border: 1px solid rgba(255, 255, 255, 0.07);
-      transition: all 0.2s ease;
-      opacity: 0;
-      min-width: 0;
-      overflow: hidden;
-    }
-    .group-card.group-a {
-      border-top: 4px solid #d60100;
-      animation: slideLeft 0.65s ease-out 0.15s forwards;
-    }
-    .group-card.group-b {
-      border-top: 4px solid #3051f5;
-      animation: slideRight 0.65s ease-out 0.3s forwards;
-    }
-    .group-card:hover {
-      border-color: rgba(175, 233, 6, 0.5);
-      box-shadow: 0 12px 28px rgba(0,0,0,0.6);
-    }
-
-    .group-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.8rem;
-    }
-    .group-title {
-      font-size: 1.8rem;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 0.8rem;
-    }
-    .group-title .group-badge {
-      background: #afe906;
-      color: #0a0a0c;
-      width: 38px;
-      height: 38px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border-radius: 50%;
-      font-weight: 800;
-      font-size: 1.1rem;
-      flex-shrink: 0;
-    }
-
-    /* ===== SCROLLABLE TABLE WRAPPER - HIDDEN SCROLLBAR ===== */
-    .table-wrapper {
-      width: 100%;
-      overflow-x: auto;
-      overflow-y: hidden;
-      border-radius: 1.2rem;
-      background: rgba(0,0,0,0.2);
-      -webkit-overflow-scrolling: touch;
-      scroll-behavior: smooth;
-      /* Hide scrollbar for Firefox */
-      scrollbar-width: none;
-      /* Hide scrollbar for IE and Edge */
-      -ms-overflow-style: none;
-    }
-    /* Hide scrollbar for Chrome, Safari and Opera */
-    .table-wrapper::-webkit-scrollbar {
-      display: none;
-      width: 0;
-      height: 0;
-      background: transparent;
-    }
-    .table-wrapper::-webkit-scrollbar-track {
-      display: none;
-      background: transparent;
-    }
-    .table-wrapper::-webkit-scrollbar-thumb {
-      display: none;
-      background: transparent;
-    }
-
-    .standings-table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 650px;
-      white-space: nowrap;
-      font-size: 0.9rem;
-      table-layout: auto;
-    }
-    .standings-table th {
-      padding: 0.85rem 0.4rem;
-      text-align: center;
-      font-weight: 700;
-      font-size: 0.7rem;
-      letter-spacing: 0.06em;
-      color: #afe906;
-      background: rgba(10, 10, 14, 0.9);
-      border-bottom: 2px solid rgba(175, 233, 6, 0.4);
-      text-transform: uppercase;
-      position: sticky;
-      top: 0;
-    }
-    .standings-table th:first-child {
-      padding-left: 0.8rem;
-      padding-right: 0.8rem;
-    }
-    .standings-table th:nth-child(2) {
-      text-align: left;
-      padding-left: 1rem;
-    }
-    .standings-table td {
-      padding: 0.85rem 0.4rem;
-      text-align: center;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      color: #dddddd;
-      font-weight: 500;
-    }
-    .standings-table tbody tr {
-      opacity: 0;
-      animation: fadeUp 0.4s ease-out forwards;
-    }
-    .standings-table tbody tr:nth-child(1) { animation-delay: 0.05s; }
-    .standings-table tbody tr:nth-child(2) { animation-delay: 0.12s; }
-    .standings-table tbody tr:nth-child(3) { animation-delay: 0.19s; }
-    .standings-table tbody tr:nth-child(4) { animation-delay: 0.26s; }
-    .standings-table tbody tr:nth-child(5) { animation-delay: 0.33s; }
-    .standings-table tbody tr:nth-child(6) { animation-delay: 0.4s; }
-    .standings-table tbody tr:nth-child(7) { animation-delay: 0.47s; }
-    .standings-table tbody tr:nth-child(8) { animation-delay: 0.54s; }
-    .standings-table tbody tr:nth-child(9) { animation-delay: 0.61s; }
-    .standings-table tbody tr:nth-child(10) { animation-delay: 0.68s; }
-
-    .standings-table tbody tr:hover {
-      background: rgba(175, 233, 6, 0.04);
-    }
-
-    .team-cell {
-      display: flex;
-      align-items: center;
-      gap: 0.7rem;
-      text-align: left;
-      font-weight: 650;
-      color: white;
-      padding-left: 0.3rem;
-    }
-    .team-crest {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
-      background: rgba(255, 255, 255, 0.08);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 2px solid rgba(175, 233, 6, 0.3);
-      flex-shrink: 0;
-      overflow: hidden;
-    }
-    .team-crest img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 8px;
-    }
-    .position-cell {
-      font-weight: 800;
-      font-size: 1rem;
-      position: relative;
-      padding-left: 1rem;
-    }
-    .qualification-marker {
-      position: absolute;
-      left: 2px;
-      top: 50%;
-      transform: translateY(-50%);
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-    }
-    .goals-diff {
-      padding: 0.25rem 0.7rem;
-      border-radius: 20px;
-      font-weight: 700;
-      display: inline-block;
-      font-size: 0.85rem;
-    }
-    .positive { background: rgba(1,200,83,0.2); color: #01c853; }
-    .negative { background: rgba(214,1,0,0.2); color: #ff6b6b; }
-    .neutral { background: rgba(255,255,255,0.08); color: #cbd5e1; }
-
-    .fixtures-section {
-      margin: 2rem 0 2.2rem;
-    }
-    .fixtures-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-      flex-wrap: wrap;
-      gap: 1rem;
-    }
-    .fixtures-title {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: #afe906;
-    }
-    .matchday-badge {
-      background: #1d2282;
-      color: white;
-      padding: 0.5rem 1.8rem;
-      border-radius: 2rem;
-      font-weight: 700;
-      letter-spacing: 0.5px;
-    }
-    .fixtures-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 1.2rem;
-    }
-    .fixture-card {
-      background: rgba(28,28,36,0.8);
-      padding: 1.2rem 1rem;
-      border-radius: 1.4rem;
-      border: 1px solid rgba(255,255,255,0.08);
-      transition: 0.2s;
-      opacity: 0;
-      animation: fadeUp 0.5s ease-out 0.5s forwards;
-    }
-    .fixture-card:hover {
-      border-color: rgba(175, 233, 6, 0.4);
-      transform: translateY(-2px);
-    }
-    .fixture-teams {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .fixture-team {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      font-weight: 600;
-      font-size: 0.9rem;
-      flex: 1;
-    }
-    .fixture-team:first-child {
-      justify-content: flex-end;
-      text-align: right;
-    }
-    .fixture-team:last-child {
-      justify-content: flex-start;
-      text-align: left;
-    }
-    .fixture-vs {
-      font-weight: 800;
-      color: #afe906;
-      margin: 0 0.8rem;
-      font-size: 1rem;
-      min-width: 25px;
-      text-align: center;
-      flex-shrink: 0;
-    }
-    .fixture-crest {
-      width: 34px;
-      height: 34px;
-      background: rgba(255, 255, 255, 0.05);
-      border-radius: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      border: 1px solid rgba(175, 233, 6, 0.2);
-      flex-shrink: 0;
-      overflow: hidden;
-    }
-    .fixture-crest img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 6px;
-    }
-    .fixture-status {
-      text-align: center;
-      margin-top: 0.7rem;
-      font-size: 0.75rem;
-      color: #94a3b8;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    .season-info {
-      background: rgba(0,0,0,0.4);
-      border-radius: 1.5rem;
-      padding: 2rem;
-      text-align: center;
-      border: 1px solid rgba(175,233,6,0.2);
-      margin-top: 1rem;
-    }
-    .season-info .info-title {
-      font-size: 1.6rem;
-      font-weight: 700;
-      color: #afe906;
-      margin-bottom: 0.6rem;
-    }
-    .season-info .info-text {
-      color: #cbd5e1;
-      font-size: 1rem;
-    }
-    .bye-notice {
-      margin-top: 0.8rem;
-      font-size: 0.9rem;
-      color: #94a3b8;
-    }
-
-    /* Scroll hint - subtle gradient fade on edges to indicate scrollability */
-    .table-wrapper::before,
-    .table-wrapper::after {
-      content: '';
-      position: sticky;
-      top: 0;
-      width: 30px;
-      height: 100%;
-      z-index: 5;
-      pointer-events: none;
-      opacity: 0;
-      transition: opacity 0.3s ease;
-    }
-    .table-wrapper::before {
-      left: 0;
-      background: linear-gradient(to right, rgba(10,10,14,0.6), transparent);
-      float: left;
-      margin-right: -30px;
-    }
-    .table-wrapper::after {
-      right: 0;
-      background: linear-gradient(to left, rgba(10,10,14,0.6), transparent);
-      float: right;
-      margin-left: -30px;
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeDown {
-      from { opacity: 0; transform: translateY(-16px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes slideLeft {
-      from { opacity: 0; transform: translateX(-18px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-    @keyframes slideRight {
-      from { opacity: 0; transform: translateX(18px); }
-      to { opacity: 1; transform: translateX(0); }
-    }
-
-    @media (max-width: 1024px) {
-      .groups-container {
-        grid-template-columns: 1fr;
-        gap: 1.5rem;
-      }
-      .standings-table {
-        min-width: 550px;
-        font-size: 0.82rem;
-      }
-      .team-crest {
-        width: 32px;
-        height: 32px;
-      }
-    }
-
-    @media (max-width: 768px) {
-      h1 { font-size: 2rem; }
-      body { padding: 0.8rem; }
-      .container { 
-        padding: 1.5rem 0.8rem; 
-        border-radius: 1.8rem;
-      }
-      .container::before {
-        border-radius: 1.8rem 1.8rem 0 0;
-      }
-      .group-card {
-        padding: 1.2rem 0.8rem;
-      }
-      .fixtures-grid {
-        grid-template-columns: 1fr;
-      }
-      .standings-table {
-        min-width: 480px;
-        font-size: 0.75rem;
-      }
-      .standings-table th,
-      .standings-table td {
-        padding: 0.6rem 0.2rem;
-      }
-      .team-cell {
-        gap: 0.4rem;
-      }
-      .team-crest {
-        width: 28px;
-        height: 28px;
-        border-radius: 7px;
-      }
-      .qualification-rules {
-        gap: 1rem;
-        padding: 0.8rem 1.2rem;
-      }
-    }
-  </style>
+        /* ============================================
+           RESPONSIVE
+           ============================================ */
+        @media (max-width: 1024px) {
+            .standings-grid { grid-template-columns: 1fr; }
+            .hero-title { font-size: 3rem; letter-spacing: 2px; }
+        }
+        @media (max-width: 768px) {
+            .top-nav { padding: 0 1rem; }
+            .nav-links { display: none; }
+            .hero-banner { padding: 2.5rem 1rem 2rem; }
+            .hero-trophy-emoji { font-size: 3.5rem; }
+            .hero-title { font-size: 2rem; letter-spacing: 1px; }
+            .hero-eyebrow { letter-spacing: 4px; font-size: 0.7rem; }
+            .hero-stats { gap: 1.5rem; }
+            .hero-stat-value { font-size: 1.5rem; }
+            .main-content { padding: 0 1rem; }
+            .section-title { font-size: 1.4rem; }
+            .match-card { min-width: 260px; padding: 1rem; }
+            .match-card-flag { width: 32px; height: 32px; }
+            .panel-table { min-width: 480px; font-size: 0.78rem; }
+            .mini-flag { width: 28px; height: 28px; }
+        }
+    </style>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 </head>
 <body>
-  <div class="cursor-glow" id="cursorGlow"></div>
 
-  <div class="container">
-    <header>
-      <h1>BIFA WORLD CUP</h1>
-      <div class="tournament-phase">
-        <span>Season 1 · Group Stage</span>
-        <div class="phase-badge">MATCHDAY 1</div>
-      </div>
-      <p style="color: #cbd5e1; margin-top: 0.5rem; font-size: 1.05rem;">Top 4 from each group advance to Playoffs</p>
-      <div class="qualification-rules">
-        <div class="rule-item"><span class="rule-dot dot-qualify"></span> Top 4 qualify</div>
-        <div class="rule-item"><span class="rule-dot dot-eliminate"></span> 5th–10th eliminated</div>
-      </div>
-    </header>
+    <!-- Background atmosphere -->
+    <div class="global-bg"></div>
 
-    <!-- Matchday 1 Fixtures -->
-    <div class="fixtures-section">
-      <div class="fixtures-header">
-        <div class="fixtures-title">⚽ Matchday 1 Fixtures</div>
-        <div class="matchday-badge">UPCOMING</div>
-      </div>
-      <div class="fixtures-grid" id="fixturesGrid"></div>
-    </div>
-
-    <!-- Groups -->
-    <div class="groups-container">
-      <!-- Group A -->
-      <div class="group-card group-a">
-        <div class="group-header">
-          <div class="group-title"><span class="group-badge">A</span> Group A</div>
-          <div style="color:#94a3b8; font-weight:600;">10 teams</div>
+    <!-- ===== TOP NAVIGATION ===== -->
+    <nav class="top-nav">
+        <div class="nav-brand">
+            <div class="nav-brand-icon">🏆</div>
+            <span>BIFA</span>
         </div>
-        <div class="table-wrapper">
-          <table class="standings-table" id="group1Table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Team</th>
-                <th>P</th><th>W</th><th>D</th><th>L</th>
-                <th>GF</th><th>GA</th><th>GD</th><th>PTS</th>
-              </tr>
-            </thead>
-            <tbody id="group1Body"></tbody>
-          </table>
-        </div>
-      </div>
+        <ul class="nav-links">
+            <li>Home</li>
+            <li>News</li>
+            <li class="active">Groups</li>
+            <li>Knockouts</li>
+            <li>Stats</li>
+        </ul>
+    </nav>
 
-      <!-- Group B -->
-      <div class="group-card group-b">
-        <div class="group-header">
-          <div class="group-title"><span class="group-badge">B</span> Group B</div>
-          <div style="color:#94a3b8; font-weight:600;">10 teams</div>
-        </div>
-        <div class="table-wrapper">
-          <table class="standings-table" id="group2Table">
-            <thead>
-              <tr>
-                <th>#</th>
-                <th>Team</th>
-                <th>P</th><th>W</th><th>D</th><th>L</th>
-                <th>GF</th><th>GA</th><th>GD</th><th>PTS</th>
-              </tr>
-            </thead>
-            <tbody id="group2Body"></tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-
-    <div class="season-info">
-      <div class="info-title">🌍 BIFA World Cup · Season 1</div>
-      <div class="info-text">20 nations. 2 groups. Only the top 4 from each group survive.</div>
-      <div class="bye-notice" id="byeNotice"></div>
-    </div>
-  </div>
-
-  <script>
-    (function() {
-      // ----- Cursor glow effect -----
-      const cursorGlow = document.getElementById('cursorGlow');
-      document.addEventListener('mousemove', (e) => {
-        cursorGlow.style.left = e.clientX + 'px';
-        cursorGlow.style.top = e.clientY + 'px';
-      });
-      document.addEventListener('mouseleave', () => { cursorGlow.style.opacity = '0'; });
-      document.addEventListener('mouseenter', () => { cursorGlow.style.opacity = '1'; });
-
-      // Add scroll hint shadows to all table wrappers
-      document.querySelectorAll('.table-wrapper').forEach(wrapper => {
-        const updateScrollShadows = () => {
-          const hasScroll = wrapper.scrollWidth > wrapper.clientWidth;
-          const atStart = wrapper.scrollLeft <= 2;
-          const atEnd = wrapper.scrollLeft + wrapper.clientWidth >= wrapper.scrollWidth - 2;
-          
-          if (!hasScroll) {
-            wrapper.style.setProperty('--show-left', '0');
-            wrapper.style.setProperty('--show-right', '0');
-          } else {
-            wrapper.style.setProperty('--show-left', atStart ? '0' : '1');
-            wrapper.style.setProperty('--show-right', atEnd ? '0' : '1');
-          }
-        };
-        
-        wrapper.addEventListener('scroll', updateScrollShadows);
-        window.addEventListener('resize', updateScrollShadows);
-        updateScrollShadows();
-      });
-
-      // ----- ISO CODES FOR FLAG CDN -----
-      const isoCodes = {
-        "France": "fr",
-        "Spain": "es",
-        "Argentina": "ar",
-        "England": "gb-eng",
-        "Portugal": "pt",
-        "Brazil": "br",
-        "Netherlands": "nl",
-        "Morocco": "ma",
-        "Belgium": "be",
-        "Germany": "de",
-        "Croatia": "hr",
-        "Colombia": "co",
-        "Senegal": "sn",
-        "Mexico": "mx",
-        "USA": "us",
-        "Uruguay": "uy",
-        "Japan": "jp",
-        "Switzerland": "ch",
-        "Turkey": "tr",
-        "South Korea": "kr"
-      };
-
-      const shortCodes = {
-        "France":"FRA","Spain":"ESP","Argentina":"ARG","England":"ENG","Portugal":"POR",
-        "Brazil":"BRA","Netherlands":"NED","Morocco":"MAR","Belgium":"BEL","Germany":"GER",
-        "Croatia":"CRO","Colombia":"COL","Senegal":"SEN","Mexico":"MEX","USA":"USA",
-        "Uruguay":"URU","Japan":"JPN","Switzerland":"SUI","Turkey":"TUR","South Korea":"KOR"
-      };
-
-      function getFlagUrl(teamName) {
-        const iso = isoCodes[teamName] || "xx";
-        return `https://flagcdn.com/w80/${iso}.png`;
-      }
-
-      function getShortCode(teamName) {
-        return shortCodes[teamName] || teamName.substring(0,3).toUpperCase();
-      }
-
-      // ----- ALL 20 TEAMS -----
-      const allTeams = [
-        "France","Spain","Argentina","England","Portugal","Brazil","Netherlands","Morocco",
-        "Belgium","Germany","Croatia","Colombia","Senegal","Mexico","USA","Uruguay",
-        "Japan","Switzerland","Turkey","South Korea"
-      ];
-
-      // ----- RANDOM SHUFFLE & GROUP SPLIT -----
-      function shuffleArray(arr) {
-        for (let i = arr.length - 1; i > 0; i--) {
-          const j = Math.floor(Math.random() * (i + 1));
-          [arr[i], arr[j]] = [arr[j], arr[i]];
-        }
-        return arr;
-      }
-
-      const shuffled = shuffleArray([...allTeams]);
-      const group1Teams = shuffled.slice(0, 10);
-      const group2Teams = shuffled.slice(10, 20);
-
-      // ----- STANDINGS DATA -----
-      const standings = {
-        group1: group1Teams.map(t => ({ 
-          team: t, played:0, won:0, drawn:0, lost:0, 
-          goalsFor:0, goalsAgainst:0, points:0 
-        })),
-        group2: group2Teams.map(t => ({ 
-          team: t, played:0, won:0, drawn:0, lost:0, 
-          goalsFor:0, goalsAgainst:0, points:0 
-        }))
-      };
-
-      // ----- RENDER STANDINGS TABLE -----
-      function renderStandings(groupData, tbodyId) {
-        const tbody = document.getElementById(tbodyId);
-        if (!tbody) return;
-
-        const sorted = [...groupData].sort((a, b) => {
-          if (b.points !== a.points) return b.points - a.points;
-          const gdA = a.goalsFor - a.goalsAgainst;
-          const gdB = b.goalsFor - b.goalsAgainst;
-          if (gdB !== gdA) return gdB - gdA;
-          return b.goalsFor - a.goalsFor;
-        });
-
-        tbody.innerHTML = sorted.map((t, idx) => {
-          const gd = t.goalsFor - t.goalsAgainst;
-          const gdClass = gd > 0 ? 'positive' : (gd < 0 ? 'negative' : 'neutral');
-          const gdFormatted = gd > 0 ? `+${gd}` : gd;
-          const markerClass = idx < 4 ? 'qualifies' : 'eliminated';
-          const flagUrl = getFlagUrl(t.team);
-          const short = getShortCode(t.team);
-
-          return `
-            <tr>
-              <td class="position-cell">
-                <span class="qualification-marker ${markerClass}" 
-                      style="background:${markerClass==='qualifies'?'#01c853':'#d60100'}; box-shadow: 0 0 8px ${markerClass==='qualifies'?'#01c853':'#d60100'};">
-                </span>
-                ${idx + 1}
-              </td>
-              <td class="team-cell">
-                <div class="team-crest" title="${t.team}">
-                  <img src="${flagUrl}" alt="${t.team} flag" loading="lazy" 
-                       onerror="this.style.display='none'; this.parentNode.innerHTML='<span style=font-weight:800;font-size:0.8rem;color:#afe906>${short}</span>'">
+    <!-- ===== HERO BANNER ===== -->
+    <section class="hero-banner">
+        <div class="hero-banner-inner">
+            <span class="hero-trophy-emoji">🏆</span>
+            <div class="hero-eyebrow">BIFA World Cup 2026™</div>
+            <h1 class="hero-title">Season One</h1>
+            <p class="hero-season">Group Stage · Matchday 1</p>
+            <div class="hero-stats">
+                <div class="hero-stat">
+                    <div class="hero-stat-value">20</div>
+                    <div class="hero-stat-label">Nations</div>
                 </div>
-                <span>${t.team}</span>
-              </td>
-              <td>${t.played}</td>
-              <td>${t.won}</td>
-              <td>${t.drawn}</td>
-              <td>${t.lost}</td>
-              <td>${t.goalsFor}</td>
-              <td>${t.goalsAgainst}</td>
-              <td><span class="goals-diff ${gdClass}">${gdFormatted}</span></td>
-              <td style="font-weight:800; color:#afe906; font-size:1rem;">${t.points}</td>
-            </tr>
-          `;
-        }).join('');
-      }
-
-      function updateAllStandings() {
-        renderStandings(standings.group1, 'group1Body');
-        renderStandings(standings.group2, 'group2Body');
-      }
-
-      // ----- GENERATE MATCHDAY 1 FIXTURES -----
-      function generateMatchday1Fixtures() {
-        const fixtures = [];
-
-        const g1Shuffled = shuffleArray([...group1Teams]);
-        const g1Playing = g1Shuffled.slice(0, 8);
-        const g1Bye = g1Shuffled.slice(8, 10);
-        for (let i = 0; i < g1Playing.length; i += 2) {
-          fixtures.push({ home: g1Playing[i], away: g1Playing[i+1], group: 'A' });
-        }
-
-        const g2Shuffled = shuffleArray([...group2Teams]);
-        const g2Playing = g2Shuffled.slice(0, 8);
-        const g2Bye = g2Shuffled.slice(8, 10);
-        for (let i = 0; i < g2Playing.length; i += 2) {
-          fixtures.push({ home: g2Playing[i], away: g2Playing[i+1], group: 'B' });
-        }
-
-        return { fixtures, byeTeams: [...g1Bye, ...g2Bye] };
-      }
-
-      const { fixtures, byeTeams } = generateMatchday1Fixtures();
-
-      // ----- RENDER FIXTURES -----
-      function renderFixtures() {
-        const grid = document.getElementById('fixturesGrid');
-        if (!grid) return;
-
-        grid.innerHTML = fixtures.map(f => {
-          const homeFlagUrl = getFlagUrl(f.home);
-          const awayFlagUrl = getFlagUrl(f.away);
-          const homeShort = getShortCode(f.home);
-          const awayShort = getShortCode(f.away);
-
-          return `
-            <div class="fixture-card">
-              <div class="fixture-teams">
-                <div class="fixture-team">
-                  <span>${f.home}</span>
-                  <div class="fixture-crest" title="${f.home}">
-                    <img src="${homeFlagUrl}" alt="${f.home} flag" loading="lazy"
-                         onerror="this.style.display='none'; this.parentNode.innerHTML='<span style=font-weight:700;font-size:0.7rem;color:#afe906>${homeShort}</span>'">
-                  </div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value">2</div>
+                    <div class="hero-stat-label">Groups</div>
                 </div>
-                <div class="fixture-vs">VS</div>
-                <div class="fixture-team">
-                  <div class="fixture-crest" title="${f.away}">
-                    <img src="${awayFlagUrl}" alt="${f.away} flag" loading="lazy"
-                         onerror="this.style.display='none'; this.parentNode.innerHTML='<span style=font-weight:700;font-size:0.7rem;color:#afe906>${awayShort}</span>'">
-                  </div>
-                  <span>${f.away}</span>
+                <div class="hero-stat">
+                    <div class="hero-stat-value">8</div>
+                    <div class="hero-stat-label">Advance</div>
                 </div>
-              </div>
-              <div class="fixture-status">Group ${f.group}</div>
+                <div class="hero-stat">
+                    <div class="hero-stat-value">1</div>
+                    <div class="hero-stat-label">Champion</div>
+                </div>
             </div>
-          `;
-        }).join('');
+        </div>
+    </section>
 
-        const byeNotice = document.getElementById('byeNotice');
-        if (byeNotice && byeTeams.length > 0) {
-          byeNotice.textContent = `Bye this matchday: ${byeTeams.join(', ')}`;
-        }
-      }
+    <!-- ===== MAIN CONTENT ===== -->
+    <main class="main-content">
 
-      // ----- INITIAL RENDER -----
-      updateAllStandings();
-      renderFixtures();
+        <!-- Fixtures -->
+        <div class="section-header">
+            <div class="section-label">Matchday 1</div>
+            <div class="section-title">Upcoming Fixtures</div>
+        </div>
+        <div class="fixtures-strip" id="fixturesStrip"></div>
 
-      // ----- PUBLIC API -----
-      window.updateBIFAResults = function(resultsArray) {
-        resultsArray.forEach(r => {
-          const group = r.group === 'A' ? standings.group1 : standings.group2;
-          const homeTeam = group.find(t => t.team === r.home);
-          const awayTeam = group.find(t => t.team === r.away);
-          if (!homeTeam || !awayTeam) return;
+        <!-- Standings -->
+        <div class="section-header">
+            <div class="section-label">Standings</div>
+            <div class="section-title">Group Tables</div>
+        </div>
+        <div class="standings-grid">
+            <!-- Group A -->
+            <div class="standings-panel panel-a">
+                <div class="panel-head">
+                    <div class="panel-head-title">
+                        <span class="panel-head-letter">A</span> Group A
+                    </div>
+                    <div class="panel-head-meta">10 Teams</div>
+                </div>
+                <div class="panel-table-wrap">
+                    <table class="panel-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nation</th>
+                                <th>P</th><th>W</th><th>D</th><th>L</th>
+                                <th>GF</th><th>GA</th><th>GD</th><th>PTS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="groupABody"></tbody>
+                    </table>
+                </div>
+            </div>
 
-          homeTeam.played++;
-          awayTeam.played++;
-          homeTeam.goalsFor += r.homeGoals;
-          homeTeam.goalsAgainst += r.awayGoals;
-          awayTeam.goalsFor += r.awayGoals;
-          awayTeam.goalsAgainst += r.homeGoals;
+            <!-- Group B -->
+            <div class="standings-panel panel-b">
+                <div class="panel-head">
+                    <div class="panel-head-title">
+                        <span class="panel-head-letter">B</span> Group B
+                    </div>
+                    <div class="panel-head-meta">10 Teams</div>
+                </div>
+                <div class="panel-table-wrap">
+                    <table class="panel-table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Nation</th>
+                                <th>P</th><th>W</th><th>D</th><th>L</th>
+                                <th>GF</th><th>GA</th><th>GD</th><th>PTS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="groupBBody"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
 
-          if (r.homeGoals > r.awayGoals) {
-            homeTeam.won++;
-            awayTeam.lost++;
-            homeTeam.points += 3;
-          } else if (r.homeGoals < r.awayGoals) {
-            awayTeam.won++;
-            homeTeam.lost++;
-            awayTeam.points += 3;
-          } else {
-            homeTeam.drawn++;
-            awayTeam.drawn++;
-            homeTeam.points++;
-            awayTeam.points++;
-          }
-        });
-        updateAllStandings();
-      };
+        <!-- Info bar -->
+        <div class="info-bar">
+            <p><strong>Top 4</strong> from each group qualify for the knockout stage.</p>
+            <p><strong>5th–10th</strong> are eliminated from the tournament.</p>
+            <p class="bye-text" id="byeNotice"></p>
+        </div>
+    </main>
 
-      console.log('BIFA World Cup Season 1 ready!');
-    })();
-  </script>
+    <!-- ===== FOOTER ===== -->
+    <footer class="site-footer">
+        <p>© 2026 BIFA World Cup. All rights reserved. The road to glory begins now.</p>
+    </footer>
+
+    <script>
+        (function() {
+            // ===== DATA =====
+            const isoMap = {
+                "France":"fr","Spain":"es","Argentina":"ar","England":"gb-eng","Portugal":"pt",
+                "Brazil":"br","Netherlands":"nl","Morocco":"ma","Belgium":"be","Germany":"de",
+                "Croatia":"hr","Colombia":"co","Senegal":"sn","Mexico":"mx","USA":"us",
+                "Uruguay":"uy","Japan":"jp","Switzerland":"ch","Turkey":"tr","South Korea":"kr"
+            };
+            const shortMap = {
+                "France":"FRA","Spain":"ESP","Argentina":"ARG","England":"ENG","Portugal":"POR",
+                "Brazil":"BRA","Netherlands":"NED","Morocco":"MAR","Belgium":"BEL","Germany":"GER",
+                "Croatia":"CRO","Colombia":"COL","Senegal":"SEN","Mexico":"MEX","USA":"USA",
+                "Uruguay":"URU","Japan":"JPN","Switzerland":"SUI","Turkey":"TUR","South Korea":"KOR"
+            };
+            function flagUrl(t) { return `https://flagcdn.com/w80/${isoMap[t]||'xx'}.png`; }
+            function short(t) { return shortMap[t]||t.substring(0,3).toUpperCase(); }
+
+            const allTeams = [
+                "France","Spain","Argentina","England","Portugal","Brazil","Netherlands","Morocco",
+                "Belgium","Germany","Croatia","Colombia","Senegal","Mexico","USA","Uruguay",
+                "Japan","Switzerland","Turkey","South Korea"
+            ];
+
+            function shuffle(a) {
+                for (let i=a.length-1;i>0;i--) { const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; }
+                return a;
+            }
+
+            const shuffled = shuffle([...allTeams]);
+            const g1 = shuffled.slice(0,10);
+            const g2 = shuffled.slice(10,20);
+
+            const standings = {
+                g1: g1.map(t=>({team:t,p:0,w:0,d:0,l:0,gf:0,ga:0,pts:0})),
+                g2: g2.map(t=>({team:t,p:0,w:0,d:0,l:0,gf:0,ga:0,pts:0}))
+            };
+
+            // ===== RENDER TABLES =====
+            function renderTable(data, tbodyId) {
+                const tbody = document.getElementById(tbodyId);
+                if (!tbody) return;
+                const sorted = [...data].sort((a,b)=>{
+                    if(b.pts!==a.pts) return b.pts-a.pts;
+                    const ga=a.gf-a.ga, gb=b.gf-b.ga;
+                    if(gb!==ga) return gb-ga;
+                    return b.gf-a.gf;
+                });
+                tbody.innerHTML = sorted.map((t,i)=>{
+                    const gd=t.gf-t.ga;
+                    const gdCls=gd>0?'up':(gd<0?'down':'even');
+                    const gdTxt=gd>0?`+${gd}`:gd;
+                    const isQ=i<4;
+                    return `
+                    <tr class="${isQ?'row-qualified':''}">
+                        <td class="pos-number">
+                            <span class="pos-indicator" style="background:${isQ?'#22c55e':'#ef4444'};box-shadow:0 0 8px ${isQ?'#22c55e':'#ef4444'};"></span>
+                            ${i+1}
+                        </td>
+                        <td class="team-name-cell">
+                            <div class="mini-flag"><img src="${flagUrl(t.team)}" alt="${t.team}" loading="lazy" onerror="this.style.display='none';this.parentNode.innerHTML='<span style=font-weight:800;font-size:0.65rem;color:#c9a84c>${short(t.team)}</span>'"></div>
+                            ${t.team}
+                        </td>
+                        <td>${t.p}</td><td>${t.w}</td><td>${t.d}</td><td>${t.l}</td>
+                        <td>${t.gf}</td><td>${t.ga}</td>
+                        <td><span class="gd-chip ${gdCls}">${gdTxt}</span></td>
+                        <td><span class="pts-emphasis">${t.pts}</span></td>
+                    </tr>`;
+                }).join('');
+            }
+
+            function updateAll() {
+                renderTable(standings.g1, 'groupABody');
+                renderTable(standings.g2, 'groupBBody');
+            }
+
+            // ===== FIXTURES =====
+            function genFixtures() {
+                const fx=[];
+                const s1=shuffle([...g1]), p1=s1.slice(0,8), b1=s1.slice(8,10);
+                for(let i=0;i<p1.length;i+=2) fx.push({home:p1[i],away:p1[i+1],group:'A'});
+                const s2=shuffle([...g2]), p2=s2.slice(0,8), b2=s2.slice(8,10);
+                for(let i=0;i<p2.length;i+=2) fx.push({home:p2[i],away:p2[i+1],group:'B'});
+                return {fixtures:fx, bye:[...b1,...b2]};
+            }
+            const {fixtures, bye} = genFixtures();
+
+            function renderFixtures() {
+                const strip = document.getElementById('fixturesStrip');
+                if(!strip) return;
+                strip.innerHTML = fixtures.map(f=>`
+                    <div class="match-card">
+                        <div class="match-card-group">Group ${f.group}</div>
+                        <div class="match-card-teams">
+                            <div class="match-card-team">
+                                <span>${f.home}</span>
+                                <div class="match-card-flag"><img src="${flagUrl(f.home)}" alt="${f.home}" loading="lazy" onerror="this.style.display='none';this.parentNode.innerHTML='<span style=font-weight:700;font-size:0.65rem;color:#c9a84c>${short(f.home)}</span>'"></div>
+                            </div>
+                            <div class="match-card-vs">VS</div>
+                            <div class="match-card-team">
+                                <div class="match-card-flag"><img src="${flagUrl(f.away)}" alt="${f.away}" loading="lazy" onerror="this.style.display='none';this.parentNode.innerHTML='<span style=font-weight:700;font-size:0.65rem;color:#c9a84c>${short(f.away)}</span>'"></div>
+                                <span>${f.away}</span>
+                            </div>
+                        </div>
+                        <div class="match-card-status">Upcoming</div>
+                    </div>
+                `).join('');
+                const byeEl = document.getElementById('byeNotice');
+                if(byeEl && bye.length) byeEl.textContent = `Bye this matchday: ${bye.join(' · ')}`;
+            }
+
+            updateAll();
+            renderFixtures();
+
+            window.updateBIFAResults = function(results) {
+                results.forEach(r=>{
+                    const grp = r.group==='A'?standings.g1:standings.g2;
+                    const ht=grp.find(t=>t.team===r.home), at=grp.find(t=>t.team===r.away);
+                    if(!ht||!at) return;
+                    ht.p++; at.p++; ht.gf+=r.homeGoals; ht.ga+=r.awayGoals;
+                    at.gf+=r.awayGoals; at.ga+=r.homeGoals;
+                    if(r.homeGoals>r.awayGoals){ht.w++;at.l++;ht.pts+=3;}
+                    else if(r.homeGoals<r.awayGoals){at.w++;ht.l++;at.pts+=3;}
+                    else{ht.d++;at.d++;ht.pts++;at.pts++;}
+                });
+                updateAll();
+            };
+
+            console.log('🏆 BIFA World Cup 2026 · Ready');
+        })();
+    </script>
 </body>
 </html>
